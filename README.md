@@ -10,7 +10,7 @@
 
 Clone this repository onto your local PC / VPS
 ```
-git clone git@github.com:noerfariss/pipos.git
+git clone https://github.com/noerfariss/pipos.git
 ```
 
 Copy .env from .env.example
