@@ -224,9 +224,18 @@ class ProdukController extends Controller
     public function cariProduk(Request $request)
     {
         $key = $request->key;
+        $qty = $request->qty;
+
         try {
             $produk = Produk::query()
-                ->where('barcode', $key)->firstOrFail();
+                ->where('barcode', $key)
+                ->where('stok', '>', 0)
+                ->firstOrFail();
+
+            if ($produk->stok < $qty) {
+                return new errorResource(['message' => 'Stok tidak mencukupi']);
+            }
+
             return new ProdukResource($produk);
         } catch (\Throwable $th) {
             Log::warning($th->getMessage());

@@ -26,19 +26,5 @@ Route::middleware('xss')->group(function () {
     Route::middleware('auth:sanctum')->group(function () {
         Route::get('/user', [AuthController::class, 'user']);
         Route::get('/logout', [AuthController::class, 'logout']);
-
-        Route::apiSingleton('buku', BukuController::class);
-        Route::get('/buku/home', [BukuController::class, 'bukuHome']);
-
-        Route::apiSingleton('banner', BannerController::class);
-        Route::apiSingleton('kategori', KategoriController::class);
-        Route::apiSingleton('sirkulasi', SirkulasiController::class);
-        Route::get('/sirkulasi/detail/{id}', [SirkulasiController::class, 'detail']);
-
-        Route::prefix('pengaturan')->group(function () {
-            Route::apiSingleton('profile', ProfileController::class);
-            Route::post('/profile/foto', [ProfileController::class, 'gantiFoto']);
-            Route::post('/profile/password', [ProfileController::class, 'gantiPassword']);
-        });
     });
 });

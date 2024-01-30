@@ -82,7 +82,7 @@
              <div class="card" style="height: 83vh;">
                  <div class="card-body">
                      <section>
-                         <h1>xxxx <span class="float-end totalAll">0</span></h1>
+                         <h1>Rp <span class="float-end totalAll">0</span></h1>
                      </section>
                  </div>
 

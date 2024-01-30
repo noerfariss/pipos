@@ -44,7 +44,7 @@
                     data: 'qty',
                     render: function(data, type, row) {
                         const id = row.id;
-                        return `<input type="number" class="updateQty" data-uuid="${id}" style="width:70px;" value="${data}">`;
+                        return `<input type="number" class="updateQty" data-pre="${data}" data-uuid="${id}" style="width:70px;" value="${data}">`;
                     }
                 },
                 {
@@ -195,6 +195,7 @@
                                 const produk = data.produk;
                                 const harga = data.harga_asli;
                                 const subtotal = harga * qty;
+                                const currentStok = data.stok;
 
                                 // cek apakah di dalam items array sudah ada produknya?
                                 const produkYangAda = itemsArray.find(function(item) {
@@ -202,12 +203,28 @@
                                 });
 
                                 if (produkYangAda) {
-                                    // jika produk sudah diiinputkan, update qty dan subtotalnya
-                                    const newQty = Number(produkYangAda.qty) + Number(qty);
-                                    const newSubtotal = Number(produkYangAda.harga) * newQty;
 
-                                    produkYangAda.qty = newQty;
-                                    produkYangAda.subtotal = newSubtotal;
+                                    const prediksiStok = Number(currentStok) + Number(
+                                        produkYangAda.qty);
+
+                                    if (currentStok < prediksiStok) {
+                                        Swal.fire({
+                                            title: 'Stok tidak mencukupi ',
+                                            icon: 'error',
+                                            showCancelButton: false,
+                                            showConfirmButton: false,
+                                            timer: 3000
+                                        });
+
+                                    } else {
+                                        // jika produk sudah diiinputkan, update qty dan subtotalnya
+                                        const newQty = Number(produkYangAda.qty) + Number(qty);
+                                        const newSubtotal = Number(produkYangAda.harga) *
+                                            newQty;
+
+                                        produkYangAda.qty = newQty;
+                                        produkYangAda.subtotal = newSubtotal;
+                                    }
 
                                 } else {
                                     let nomor = 1;
@@ -252,22 +269,56 @@
 
             const id = $(this).data('uuid');
             const updateQty = $(this).val();
+            const prevQty = $(this).data('pre');
+            let stok = 0;
 
-            // cek apakah di dalam items array sudah ada produknya?
-            const produkYangAda = itemsArray.find(function(item) {
-                return item.id === id;
-            });
+            $.ajax({
+                    type: 'GET',
+                    url: `{{ url('/auth/produk/${id}') }}`,
+                })
+                .done(function(msg) {
+                    stok = msg.data.stok;
 
-            if (produkYangAda) {
-                // jika produk sudah diiinputkan, update qty dan subtotalnya
-                const newQty = Number(updateQty);
-                const newSubtotal = Number(produkYangAda.harga) * Number(newQty);
+                    if (stok < updateQty) {
 
-                produkYangAda.qty = newQty;
-                produkYangAda.subtotal = newSubtotal;
-            }
+                        $(`.updateQty[data-uuid="${id}"]`).val(prevQty);
 
-            UpdateTableItem();
+                        Swal.fire({
+                            title: 'Stok tidak mencukupi',
+                            icon: 'error',
+                            showCancelButton: false,
+                            showConfirmButton: false,
+                            timer: 3000
+                        });
+
+                    } else {
+                        // cek apakah di dalam items array sudah ada produknya?
+                        const produkYangAda = itemsArray.find(function(item) {
+                            return item.id === id;
+                        });
+
+                        if (produkYangAda) {
+                            // jika produk sudah diiinputkan, update qty dan subtotalnya
+                            const newQty = Number(updateQty);
+                            const newSubtotal = Number(produkYangAda.harga) * Number(newQty);
+
+                            produkYangAda.qty = newQty;
+                            produkYangAda.subtotal = newSubtotal;
+                        }
+
+                        UpdateTableItem();
+                    }
+
+                })
+                .fail(function(err) {
+                    Swal.fire({
+                        title: err.message,
+                        icon: 'error',
+                        showCancelButton: false,
+                        showConfirmButton: false,
+                        timer: 3000
+                    });
+                });
         });
 
 
