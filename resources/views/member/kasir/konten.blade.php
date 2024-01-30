@@ -71,8 +71,19 @@
              </div>
              {{-- end cari produk --}}
 
-             <a href="{{ route('auth.index') }}" class="mt-2 btn btn-default"><i
-                     class="menu-icon tf-icons bx bx-pie-chart"></i> Dashboard</a>
+             <div class="d-grid gap-2">
+                 <a href="{{ route('auth.index') }}" class="mt-3 btn btn-dark">
+                     <i class="menu-icon tf-icons bx bx-pie-chart"></i> Dashboard
+                 </a>
+
+                 <a href="#" class="btn btn-dark mt-2" onclick="modalProduk(event)"> <i
+                         class="menu-icon tf-icons bx bx-data"></i>Lihat Produk</a>
+
+                 <a href="#" class="btn btn-dark mt-2" onclick="modalTransaksi(event)"> <i
+                         class="menu-icon tf-icons bx bx-money-withdraw"></i>Transaksi</a>
+             </div>
+
+
 
              @include('member.layouts.footer')
 
@@ -124,9 +135,12 @@
      </div>
  </div>
 
+ @include('member.kasir.modalProduk')
+
+ @include('member.kasir.modalTransaksi')
 
  @include('member.kasir.modalBayar')
 
  @include('member.kasir.script')
- @include('member.kasir.simpleMoney')
 
+ @include('member.kasir.simpleMoney')

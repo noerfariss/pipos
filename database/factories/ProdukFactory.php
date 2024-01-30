@@ -21,7 +21,7 @@ class ProdukFactory extends Factory
             'barcode' => fake()->ean13(),
             'produk' => fake()->sentence(3),
             'keterangan' => fake()->sentence(7),
-            'stok' => fake()->numberBetween(0, 57),
+            'stok' => 0,
             'harga' => fake()->numberBetween(12000, 300000),
             'stok_warning' => fake()->numberBetween(0, 5),
             'unit_id' => fake()->numberBetween(1, 2),

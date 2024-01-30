@@ -16,6 +16,7 @@ use App\Http\Controllers\Member\SuplierController;
 use App\Http\Controllers\Member\UnitController;
 use App\Http\Controllers\StokInController;
 use App\Http\Controllers\StokOutController;
+use App\Http\Controllers\TransaksiController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -38,6 +39,7 @@ Route::middleware('xss')->group(function () {
 
         Route::get('/kasir', [KasirController::class, 'index'])->name('kasir.index');
         Route::post('/kasir/bayar', [KasirController::class, 'bayar'])->name('kasir.bayar');
+        Route::post('/kasir/transaksi', [TransaksiController::class, 'ajax'])->name('kasir.transaksi');
 
         Route::resource('kategori', KategoriController::class);
         Route::post('/kategori-ajax', [KategoriController::class, 'ajax'])->name('kategori.ajax');

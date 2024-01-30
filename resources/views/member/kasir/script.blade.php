@@ -203,9 +203,7 @@
                                 });
 
                                 if (produkYangAda) {
-
-                                    const prediksiStok = Number(currentStok) + Number(
-                                        produkYangAda.qty);
+                                    const prediksiStok = Number(qty) + Number(produkYangAda.qty);
 
                                     if (currentStok < prediksiStok) {
                                         Swal.fire({
@@ -219,8 +217,7 @@
                                     } else {
                                         // jika produk sudah diiinputkan, update qty dan subtotalnya
                                         const newQty = Number(produkYangAda.qty) + Number(qty);
-                                        const newSubtotal = Number(produkYangAda.harga) *
-                                            newQty;
+                                        const newSubtotal = Number(produkYangAda.harga) *newQty;
 
                                         produkYangAda.qty = newQty;
                                         produkYangAda.subtotal = newSubtotal;
@@ -436,6 +433,116 @@
 
     function modalBayar() {
         $('#modalBayar').modal('show');
+    }
+
+    function modalProduk(e) {
+        e.preventDefault();
+        $('#modalProduk').modal('show');
+        $('#cariProdukTable').val('');
+
+        var produkTable = $('#produkTable').DataTable({
+            scrollX: true,
+            scrollY: false,
+            processing: true,
+            serverSide: true,
+            searching: false,
+            lengthChange: false,
+            pageLength: 7,
+            bDestroy: true,
+            info: false,
+            responsive: true,
+            order: [
+                [2, 'desc']
+            ],
+            ajax: {
+                url: "{{ route('produk.ajax') }}",
+                type: "POST",
+                data: function(d) {
+                    d._token = $("input[name=_token]").val();
+                    d.status = 'y';
+                    d.cari = $('#cariProdukTable').val();
+                },
+            },
+            columns: [{
+                    data: 'produk'
+                },
+                {
+                    data: 'kategori_id'
+                },
+                {
+                    data: 'stok',
+                },
+                {
+                    data: 'harga',
+                    render: function(data) {
+                        return formatRupiah(data);
+                    }
+                },
+            ]
+        });
+
+        $('#cariProdukTable').keyup(function() {
+            produkTable.search($('#cariProdukTable').val()).draw();
+        });
+    }
+
+    function modalTransaksi(e) {
+        e.preventDefault();
+        $('#modalTransaksi').modal('show');
+        $('#cariTransaksiTable').val('');
+
+        var transaksiTable = $('#transaksiTable').DataTable({
+            scrollX: true,
+            scrollY: false,
+            processing: true,
+            serverSide: true,
+            searching: false,
+            lengthChange: false,
+            pageLength: 7,
+            bDestroy: true,
+            info: false,
+            responsive: true,
+            order: [
+                [4, 'desc']
+            ],
+            ajax: {
+                url: "{{ route('kasir.transaksi') }}",
+                type: "POST",
+                data: function(d) {
+                    d._token = $("input[name=_token]").val();
+                    d.cari = $('#cariTransaksiTable').val();
+                },
+            },
+            columns: [{
+                    data: 'uuid'
+                },
+                {
+                    data: 'total',
+                    render: function(data) {
+                        return formatRupiah(data);
+                    }
+                },
+                {
+                    data: 'bayar',
+                    render: function(data) {
+                        return formatRupiah(data);
+                    }
+                },
+                {
+                    data: 'kembali',
+                    render: function(data) {
+                        return formatRupiah(data);
+                    }
+                },
+                {
+                    data: 'created_at'
+                }
+            ]
+        });
+
+        $('#cariTransaksiTable').keyup(function() {
+            transaksiTable.search($('#cariTransaksiTable').val()).draw();
+        });
     }
 
     $(document).keydown(function(event) {
