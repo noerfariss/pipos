@@ -77,10 +77,10 @@
                  </a>
 
                  <a href="#" class="btn btn-dark mt-2" onclick="modalProduk(event)"> <i
-                         class="menu-icon tf-icons bx bx-data"></i>Lihat Produk</a>
+                         class="menu-icon tf-icons bx bx-data"></i>Lihat Produk (F3)</a>
 
                  <a href="#" class="btn btn-dark mt-2" onclick="modalTransaksi(event)"> <i
-                         class="menu-icon tf-icons bx bx-money-withdraw"></i>Transaksi</a>
+                         class="menu-icon tf-icons bx bx-money-withdraw"></i>Transaksi (F4)</a>
              </div>
 
 

@@ -203,7 +203,8 @@
                                 });
 
                                 if (produkYangAda) {
-                                    const prediksiStok = Number(qty) + Number(produkYangAda.qty);
+                                    const prediksiStok = Number(qty) + Number(produkYangAda
+                                        .qty);
 
                                     if (currentStok < prediksiStok) {
                                         Swal.fire({
@@ -217,7 +218,8 @@
                                     } else {
                                         // jika produk sudah diiinputkan, update qty dan subtotalnya
                                         const newQty = Number(produkYangAda.qty) + Number(qty);
-                                        const newSubtotal = Number(produkYangAda.harga) *newQty;
+                                        const newSubtotal = Number(produkYangAda.harga) *
+                                            newQty;
 
                                         produkYangAda.qty = newQty;
                                         produkYangAda.subtotal = newSubtotal;
@@ -555,15 +557,11 @@
         }
 
         if (event.which === 114) { // F3
-            alert('F3 Cari Produk');
+            modalProduk(event);
         }
 
-        if (event.which === 118) { // F7
-            alert('F7 Lihat Stok');
-        }
-
-        if (event.which === 119) { // F8
-            alert('F8 History Penjualan');
+        if (event.which === 115) { // F4
+            modalTransaksi(event);
         }
 
         // jika tidak ada item disabled shortcut bayar
