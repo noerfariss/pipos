@@ -51,9 +51,10 @@
         .layout-page {
             padding-left: 0 !important;
         }
-         #myTable tr td{
+
+        #myTable tr td {
             font-size: 16px !important;
-         }
+        }
     </style>
 </head>
 
@@ -70,7 +71,6 @@
                 </div>
 
             </div>
-
         </div>
     </div>
     <!-- / Layout wrapper -->

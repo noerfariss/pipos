@@ -20,6 +20,7 @@
                             <th>kategori</th>
                             <th>stok</th>
                             <th>harga</th>
+                            <th></th>
                         </tr>
                     </thead>
                 </table>

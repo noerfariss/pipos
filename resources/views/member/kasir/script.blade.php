@@ -63,6 +63,103 @@
         });
     }
 
+    const getProdukInputToCart = async (item, qty) => {
+        const baseUrl = '{{ url('/') }}';
+
+        try {
+            const req = await fetch(`${baseUrl}/auth/produk/cariproduk`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json' // Anda dapat mengubah tipe konten sesuai kebutuhan
+                },
+                body: JSON.stringify({
+                    _token: $('input[name="_token"]').val(),
+                    key: item,
+                    qty: qty
+                })
+            });
+
+            const res = await req.json();
+
+            if (!req.ok) {
+                $('#member_item_cari').val('').focus();
+
+                Swal.fire({
+                    title: res.message,
+                    icon: 'error',
+                    showCancelButton: false,
+                    showConfirmButton: false,
+                    timer: 3000
+                });
+
+            } else {
+                const data = res.data;
+
+                const id = data.uuid;
+                const produk = data.produk;
+                const harga = data.harga_asli;
+                const subtotal = harga * qty;
+                const currentStok = data.stok;
+
+                // cek apakah di dalam items array sudah ada produknya?
+                const produkYangAda = itemsArray.find(function(item) {
+                    return item.id === id;
+                });
+
+                if (produkYangAda) {
+                    const prediksiStok = Number(qty) + Number(produkYangAda
+                        .qty);
+
+                    if (currentStok < prediksiStok) {
+                        Swal.fire({
+                            title: 'Stok tidak mencukupi ',
+                            icon: 'error',
+                            showCancelButton: false,
+                            showConfirmButton: false,
+                            timer: 3000
+                        });
+
+                    } else {
+                        // jika produk sudah diiinputkan, update qty dan subtotalnya
+                        const newQty = Number(produkYangAda.qty) + Number(qty);
+                        const newSubtotal = Number(produkYangAda.harga) *
+                            newQty;
+
+                        produkYangAda.qty = newQty;
+                        produkYangAda.subtotal = newSubtotal;
+                    }
+
+                } else {
+                    let nomor = 1;
+                    if (itemsArray.length > 0) {
+                        nomor = itemsArray.length + 1;
+                    }
+
+                    // jika produk belum dimasukkan, inputkan baru
+                    const newItems = {
+                        'nomor': nomor,
+                        'id': id,
+                        'produk': produk,
+                        'harga': harga,
+                        'qty': qty,
+                        'subtotal': subtotal
+                    }
+
+                    itemsArray.push(newItems);
+                }
+
+                UpdateTableItem();
+
+                $('#member_item_cari').val('').focus();
+                $('#member_item_qty').val(1);
+
+            }
+
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     $(document).ready(function() {
         // =---- Init
         $('.member[value="0"]').prop('checked', true);
@@ -155,108 +252,11 @@
             if (e.which === 13) {
                 e.preventDefault();
 
-                const baseUrl = '{{ url('/') }}';
-                const token = $('input[name="_token"]').val();
                 const item = $('#member_item_cari').val();
                 const qty = $('#member_item_qty').val();
 
                 if (item !== '' && item !== null) {
-                    const getData = async () => {
-                        try {
-                            const req = await fetch(`${baseUrl}/auth/produk/cariproduk`, {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json' // Anda dapat mengubah tipe konten sesuai kebutuhan
-                                },
-                                body: JSON.stringify({
-                                    _token: token,
-                                    key: item,
-                                    qty: qty
-                                })
-                            });
-
-                            const res = await req.json();
-
-                            if (!req.ok) {
-                                $('#member_item_cari').val('').focus();
-
-                                Swal.fire({
-                                    title: res.message,
-                                    icon: 'error',
-                                    showCancelButton: false,
-                                    showConfirmButton: false,
-                                    timer: 3000
-                                });
-
-                            } else {
-                                const data = res.data;
-
-                                const id = data.uuid;
-                                const produk = data.produk;
-                                const harga = data.harga_asli;
-                                const subtotal = harga * qty;
-                                const currentStok = data.stok;
-
-                                // cek apakah di dalam items array sudah ada produknya?
-                                const produkYangAda = itemsArray.find(function(item) {
-                                    return item.id === id;
-                                });
-
-                                if (produkYangAda) {
-                                    const prediksiStok = Number(qty) + Number(produkYangAda
-                                        .qty);
-
-                                    if (currentStok < prediksiStok) {
-                                        Swal.fire({
-                                            title: 'Stok tidak mencukupi ',
-                                            icon: 'error',
-                                            showCancelButton: false,
-                                            showConfirmButton: false,
-                                            timer: 3000
-                                        });
-
-                                    } else {
-                                        // jika produk sudah diiinputkan, update qty dan subtotalnya
-                                        const newQty = Number(produkYangAda.qty) + Number(qty);
-                                        const newSubtotal = Number(produkYangAda.harga) *
-                                            newQty;
-
-                                        produkYangAda.qty = newQty;
-                                        produkYangAda.subtotal = newSubtotal;
-                                    }
-
-                                } else {
-                                    let nomor = 1;
-                                    if (itemsArray.length > 0) {
-                                        nomor = itemsArray.length + 1;
-                                    }
-
-                                    // jika produk belum dimasukkan, inputkan baru
-                                    const newItems = {
-                                        'nomor': nomor,
-                                        'id': id,
-                                        'produk': produk,
-                                        'harga': harga,
-                                        'qty': qty,
-                                        'subtotal': subtotal
-                                    }
-
-                                    itemsArray.push(newItems);
-                                }
-
-                                UpdateTableItem();
-
-                                $('#member_item_cari').val('').focus();
-                                $('#member_item_qty').val(1);
-
-                            }
-
-                        } catch (error) {
-                            console.log(error);
-                        }
-                    }
-
-                    getData();
+                    getProdukInputToCart(item, qty);
                 }
 
             }
@@ -433,10 +433,12 @@
         return angka.toString().replace(/[.,]/g, "");
     }
 
+    // ============================ BAYAR ===============================
     function modalBayar() {
         $('#modalBayar').modal('show');
     }
 
+    // ======================= MODAL PRODUK ========================
     function modalProduk(e) {
         e.preventDefault();
         $('#modalProduk').modal('show');
@@ -480,6 +482,12 @@
                         return formatRupiah(data);
                     }
                 },
+                {
+                    data: 'barcode',
+                    render: function(data) {
+                        return `<button type="button" class="btn btn-xs btn-outline-primary" onclick="tambahItemFromProdukModal(${data})">tambah</button>`;
+                    }
+                }
             ]
         });
 
@@ -488,6 +496,16 @@
         });
     }
 
+    function tambahItemFromProdukModal(barcode) {
+        $('#member_item_cari').val(barcode);
+        const item = $('#member_item_cari').val();
+        const qty = $('#member_item_qty').val();
+
+        getProdukInputToCart(item, qty);
+    }
+
+
+    // ====== TRANSAKSI =======================
     function modalTransaksi(e) {
         e.preventDefault();
         $('#modalTransaksi').modal('show');
@@ -516,7 +534,7 @@
                 },
             },
             columns: [{
-                    data: 'uuid'
+                    data: 'no_transaksi'
                 },
                 {
                     data: 'total',
@@ -572,4 +590,33 @@
         }
 
     });
+</script>
+
+{{-- ---------------- full screen ---------------- --}}
+<script>
+    function toggleFullScreen() {
+        if (!document.fullscreenElement && // alternative standard method
+            !document.mozFullScreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement
+        ) { // current working methods
+            if (document.documentElement.requestFullscreen) {
+                document.documentElement.requestFullscreen();
+            } else if (document.documentElement.msRequestFullscreen) {
+                document.documentElement.msRequestFullscreen();
+            } else if (document.documentElement.mozRequestFullScreen) {
+                document.documentElement.mozRequestFullScreen();
+            } else if (document.documentElement.webkitRequestFullscreen) {
+                document.documentElement.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+            }
+        } else {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            } else if (document.msExitFullscreen) {
+                document.msExitFullscreen();
+            } else if (document.mozCancelFullScreen) {
+                document.mozCancelFullScreen();
+            } else if (document.webkitExitFullscreen) {
+                document.webkitExitFullscreen();
+            }
+        }
+    }
 </script>

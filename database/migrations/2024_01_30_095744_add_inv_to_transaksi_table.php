@@ -15,6 +15,7 @@ return new class extends Migration
             $table->unsignedTinyInteger('tahun')->nullable()->after('uuid');
             $table->unsignedTinyInteger('bulan')->nullable()->after('tahun');
             $table->unsignedBigInteger('urut')->nullable()->after('bulan');
+            $table->string('no_transaksi')->nullable()->index()->after('urut');
         });
     }
 
@@ -24,7 +25,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('transaksis', function (Blueprint $table) {
-            $table->dropColumn(['tahun', 'bulan', 'urut']);
+            $table->dropColumn(['tahun', 'bulan', 'urut', 'no_transaksi']);
         });
     }
 };
