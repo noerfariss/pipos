@@ -7,7 +7,13 @@
                     <span class="d-none d-sm-block">Ganti {{ isset($title) ? $title : 'Foto' }}</span>
                     <i class="bx bx-upload d-block d-sm-none"></i>
                 </button>
-                <input type="hidden" name="foto" id="foto" value="">
+
+                @if ($foto)
+                    <input type="hidden" name="foto" id="foto" value="{{ $foto }}">
+                @else
+                    <input type="hidden" name="foto" id="foto" value="">
+                @endif
+
                 <div>
                     <small class="text-muted mb-0">Format : JPG, GIF, PNG. Maksimal ukuran 2000 Kb</small>
                 </div>

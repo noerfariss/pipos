@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Member;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Pengaturan\PengaturanUpdateRequest;
+use App\Models\Pengaturan;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -38,7 +39,7 @@ class PengaturanController extends Controller
      */
     public function show()
     {
-        $pengaturan = User::find(Auth::id());
+        $pengaturan = Pengaturan::first();
 
         return view('member.pengaturan.show', compact('pengaturan'));
     }
@@ -48,8 +49,7 @@ class PengaturanController extends Controller
      */
     public function edit()
     {
-        $pengaturan = User::find(Auth::id());
-
+        $pengaturan = Pengaturan::first();
         return view('member.pengaturan.edit', compact('pengaturan'));
     }
 
@@ -60,7 +60,7 @@ class PengaturanController extends Controller
     {
         DB::beginTransaction();
         try {
-            User::find(Auth::id())->update($request->only(['sekolah', 'npsn', 'whatsapp', 'alamat_sekolah', 'logo', 'email', 'telpon', 'timezone', 'kecamatan_id']));
+            Pengaturan::query()->update($request->only(['nama', 'alamat', 'logo', 'email', 'phone', 'phone2', 'timezone', 'kota_id']));
 
             activity()
                 ->causedBy(Auth::id())
@@ -69,12 +69,14 @@ class PengaturanController extends Controller
 
             DB::commit();
 
+            session(['zonawaktu' => $request->timezone]);
+
             return redirect()->route('pengaturan.edit')->with('pesan', '<div class="alert alert-success">Pengaturan berhasil diperbarui</div>');
         } catch (\Throwable $th) {
             Log::warning($th->getMessage());
             DB::rollBack();
 
-            return redirect()->route('pengaturan.edit')->with('pesan', '<div class="alert alert-danger">Terjadi kesalaha, cobalah kembali</div>');
+            return redirect()->route('pengaturan.edit')->with('pesan', '<div class="alert alert-danger">Terjadi kesalahan, cobalah kembali</div>');
         }
     }
 

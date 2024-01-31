@@ -22,22 +22,28 @@ class PengaturanUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'sekolah' => ['required', 'min:5'],
-            'npsn' => ['required', 'numeric', 'min:5'],
-            'whatsapp' => ['required', 'numeric', 'min:5'],
-            'alamat_sekolah' => ['required', 'min:6'],
-            'logo' => ['nullable'],
-            'telpon' => ['required', 'numeric', 'min:5'],
+            'nama' => ['required', 'min:5'],
+            'alamat' => ['required', 'min:6'],
+            'foto' => ['nullable'],
+            'phone' => ['required', 'numeric', 'min:5'],
+            'phone2' => ['nullable', 'numeric', 'min:5'],
             'email' => ['required', 'email'],
             'timezone' => ['required'],
-            'kecamatan' => ['required']
+            'kota_id' => ['required']
         ];
     }
 
     protected function prepareForValidation()
     {
         $this->merge([
-            'kecamatan_id' => $this->kecamatan,
+            'logo' => $this->foto,
         ]);
+    }
+
+    public function attributes()
+    {
+        return [
+            $this->kota_id => 'Kota'
+        ];
     }
 }

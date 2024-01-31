@@ -13,4 +13,9 @@ class Pengaturan extends Model
     public $incrementing = false;
 
     protected $guarded = [];
+
+    public function kota()
+    {
+        return $this->belongsTo(Kota::class, 'kota_id');
+    }
 }
