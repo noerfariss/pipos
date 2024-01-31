@@ -132,25 +132,6 @@ class PermissionSeeder extends Seeder
         // Role Kasir
         $kasir->syncPermissions([
             'KASIR_READ',
-            'MEMBER_READ',
-            'MEMBER_CREATE',
-            'MEMBER_EDIT',
-            'MEMBER_PRINT',
-            'KATEGORI_READ',
-            'KATEGORI_CREATE',
-            'KATEGORI_EDIT',
-            'KATEGORI_PRINT',
-            'PRODUK_READ',
-            'PRODUK_CREATE',
-            'PRODUK_EDIT',
-            'PRODUK_PRINT',
-            'UNIT_READ',
-            'UNIT_CREATE',
-            'UNIT_EDIT',
-            'UNIT_PRINT',
-            'STOKOUT_READ',
-            'STOKOUT_CREATE',
-            'STOKOUT_PRINT',
         ]);
     }
 }

@@ -22,8 +22,8 @@
             </a>
         </li>
 
-        <li class="menu-header small text-uppercase"><span class="menu-header-text">Aktivitas</span></li>
         @haspermission('KASIR_READ')
+            <li class="menu-header small text-uppercase"><span class="menu-header-text">Aktivitas</span></li>
             <li class="menu-item {{ menuAktif('kasir') }}">
                 <a href="{{ route('kasir.index') }}" class="menu-link">
                     <i class="menu-icon tf-icons bx bx-money-withdraw"></i>
@@ -32,7 +32,10 @@
             </li>
         @endhaspermission
 
-        <li class="menu-header small text-uppercase"><span class="menu-header-text">Data Produk</span></li>
+        @haspermission(['PRODUK_READ', 'KATEGORI_READ', 'SUPLIER_READ', 'UNIT_READ'])
+            <li class="menu-header small text-uppercase"><span class="menu-header-text">Data Produk</span></li>
+        @endhaspermission
+
         @haspermission('PRODUK_READ')
             <li class="menu-item {{ menuAktif('produk') }}">
                 <a href="{{ route('produk.index') }}" class="menu-link">
@@ -70,8 +73,8 @@
         @endhaspermission
 
 
-        <li class="menu-header small text-uppercase"><span class="menu-header-text">Data Member</span></li>
         @haspermission('MEMBER_READ')
+            <li class="menu-header small text-uppercase"><span class="menu-header-text">Data Member</span></li>
             <li class="menu-item {{ menuAktif('member') }}">
                 <a href="{{ route('member.index') }}" class="menu-link">
                     <i class="menu-icon tf-icons bx bxs-user-account"></i>
@@ -80,8 +83,11 @@
             </li>
         @endhaspermission
 
-        <li class="menu-header small text-uppercase"><span class="menu-header-text">Report</span></li>
-        @haspermission('MEMBER_READ')
+        @haspermission(['STOKIN_READ', 'STOKOUT_READ'])
+            <li class="menu-header small text-uppercase"><span class="menu-header-text">Report</span></li>
+        @endhaspermission
+
+        @haspermission('STOKIN_READ')
             <li class="menu-item {{ menuAktif('stokin') }}">
                 <a href="{{ route('stokin.index') }}" class="menu-link">
                     <i class="menu-icon tf-icons bx bx-cart-add"></i>
@@ -90,7 +96,7 @@
             </li>
         @endhaspermission
 
-        @haspermission('MEMBER_READ')
+        @haspermission('STOKOUT_READ')
             <li class="menu-item {{ menuAktif('stokout') }}">
                 <a href="{{ route('stokout.index') }}" class="menu-link">
                     <i class="menu-icon tf-icons bx bx-link-external"></i>
@@ -100,7 +106,11 @@
         @endhaspermission
 
 
-        <li class="menu-header small text-uppercase"><span class="menu-header-text">Pengaturan</span></li>
+
+        @haspermission(['BANNER_READ', 'PENGATURAN_READ'])
+            <li class="menu-header small text-uppercase"><span class="menu-header-text">Pengaturan</span></li>
+        @endhaspermission
+
         @haspermission('BANNER_READ')
             <li class="menu-item {{ menuAktif('banner') }}">
                 <a href="{{ route('banner.index') }}" class="menu-link">
