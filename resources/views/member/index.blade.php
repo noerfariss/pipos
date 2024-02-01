@@ -14,17 +14,10 @@
                                     Selamat beraktifitas & tetap semangat!
                                 </p>
 
-                                <a href="javascript:;" class="btn btn-sm btn-outline-primary">help desk</a>
+                                <a href="https://wa.me/6285171737359" target="_blank" class="btn btn-sm btn-outline-primary">help desk</a>
                             </div>
                         </div>
-                        <div class="col-sm-5 text-center text-sm-left">
-                            <div class="card-body pb-0 px-0 px-md-4">
-                                <img src="{{ asset('backend/sneat-1.0.0/') }}/assets/img/illustrations/man-with-laptop-light.png"
-                                    height="140" alt="View Badge User"
-                                    data-app-dark-img="illustrations/man-with-laptop-dark.png"
-                                    data-app-light-img="illustrations/man-with-laptop-light.png" />
-                            </div>
-                        </div>
+
                     </div>
                 </div>
             </div>

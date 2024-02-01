@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Member;
 
+use App\Http\Controllers\Controller;
 use App\Enums\StokEnums;
 use App\Events\StokEvent;
 use App\Exports\StokOutExport;

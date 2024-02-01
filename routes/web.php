@@ -1,8 +1,8 @@
 <?php
 
-use App\Http\Controllers\AjaxController;
+use App\Http\Controllers\Member\AjaxController;
 use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\KasirController;
+use App\Http\Controllers\Member\KasirController;
 use App\Http\Controllers\Member\BannerController;
 use App\Http\Controllers\Member\HomeController;
 use App\Http\Controllers\Member\KategoriController;
@@ -11,11 +11,13 @@ use App\Http\Controllers\Member\PengaturanController;
 use App\Http\Controllers\Member\PasswordController;
 use App\Http\Controllers\Member\ProdukController;
 use App\Http\Controllers\Member\ProfilController;
+use App\Http\Controllers\Member\RoleController;
 use App\Http\Controllers\Member\SuplierController;
 use App\Http\Controllers\Member\UnitController;
-use App\Http\Controllers\StokInController;
-use App\Http\Controllers\StokOutController;
-use App\Http\Controllers\TransaksiController;
+use App\Http\Controllers\Member\UserController;
+use App\Http\Controllers\Member\StokInController;
+use App\Http\Controllers\Member\StokOutController;
+use App\Http\Controllers\Member\TransaksiController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -68,6 +70,12 @@ Route::middleware('xss')->group(function () {
         Route::resource('banner', BannerController::class);
         Route::post('/banner-ajax', [BannerController::class, 'ajax'])->name('banner.ajax');
 
+
+        Route::resource('user', UserController::class);
+        Route::post('/user-ajax', [UserController::class, 'ajax'])->name('user.ajax');
+        Route::post('/user/password/{user}', [UserController::class, 'password'])->name('user.password');
+
+        Route::resource('role', RoleController::class);
         Route::singleton('pengaturan', PengaturanController::class);
 
         Route::prefix('master')->group(function () {

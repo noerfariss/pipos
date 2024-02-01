@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Member;
 
+use App\Http\Controllers\Controller;
 use App\Events\StokEvent;
 use App\Http\Requests\Kasir\BayarRequest;
 use App\Http\Resources\errorResource;

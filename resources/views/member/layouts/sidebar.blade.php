@@ -112,6 +112,18 @@
         @endhaspermission
 
         @haspermission('PENGATURAN_READ')
+            <li class="menu-item {{ menuAktif('user') }}">
+                <a href="{{ route('user.index') }}" class="menu-link">
+                    <i class="menu-icon tf-icons bx bx-user"></i>
+                    <div data-i18n="Analytics">User</div>
+                </a>
+            </li>
+            <li class="menu-item {{ menuAktif('role') }}">
+                <a href="{{ route('role.index') }}" class="menu-link">
+                    <i class="menu-icon tf-icons bx bx-outline"></i>
+                    <div data-i18n="Analytics">Role</div>
+                </a>
+            </li>
             <li class="menu-item {{ menuAktif('pengaturan') }}">
                 <a href="{{ route('pengaturan.show') }}" class="menu-link">
                     <i class="menu-icon tf-icons bx bx-cog"></i>
