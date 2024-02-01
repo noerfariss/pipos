@@ -32,11 +32,6 @@ class PermissionSeeder extends Seeder
         Permission::create(['name' => 'PERMISSION_EDIT']);
         Permission::create(['name' => 'PERMISSION_DELETE']);
 
-        Permission::create(['name' => 'BANNER_READ']);
-        Permission::create(['name' => 'BANNER_CREATE']);
-        Permission::create(['name' => 'BANNER_EDIT']);
-        Permission::create(['name' => 'BANNER_DELETE']);
-
         Permission::create(['name' => 'MEMBER_READ']);
         Permission::create(['name' => 'MEMBER_CREATE']);
         Permission::create(['name' => 'MEMBER_EDIT']);
@@ -89,10 +84,6 @@ class PermissionSeeder extends Seeder
 
         // Role admin
         $admin->syncPermissions([
-            'BANNER_READ',
-            'BANNER_CREATE',
-            'BANNER_EDIT',
-            'BANNER_DELETE',
             'MEMBER_READ',
             'MEMBER_CREATE',
             'MEMBER_EDIT',
@@ -126,7 +117,11 @@ class PermissionSeeder extends Seeder
             'STOKOUT_PRINT',
             'PENGATURAN_READ',
             'PENGATURAN_EDIT',
-            'KASIR_READ'
+            'KASIR_READ',
+            'USERWEB_READ',
+            'USERWEB_CREATE',
+            'USERWEB_EDIT',
+            'USERWEB_DELETE',
         ]);
 
         // Role Kasir
