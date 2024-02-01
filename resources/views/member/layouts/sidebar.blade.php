@@ -107,17 +107,8 @@
 
 
 
-        @haspermission(['BANNER_READ', 'PENGATURAN_READ'])
+        @haspermission('PENGATURAN_READ')
             <li class="menu-header small text-uppercase"><span class="menu-header-text">Pengaturan</span></li>
-        @endhaspermission
-
-        @haspermission('BANNER_READ')
-            <li class="menu-item {{ menuAktif('banner') }}">
-                <a href="{{ route('banner.index') }}" class="menu-link">
-                    <i class="menu-icon tf-icons bx bx-image"></i>
-                    <div data-i18n="Analytics">Banner</div>
-                </a>
-            </li>
         @endhaspermission
 
         @haspermission('PENGATURAN_READ')
