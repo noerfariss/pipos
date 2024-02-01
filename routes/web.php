@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\AjaxController;
 use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\KasirController;
 use App\Http\Controllers\Member\BannerController;
 use App\Http\Controllers\Member\HomeController;
@@ -21,13 +20,8 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::middleware('xss')->group(function () {
-    Route::get('/register', [RegisterController::class, 'index'])->name('auth.register');
-    Route::post('/register', [RegisterController::class, 'register'])->name('auth.register.post');
-    Route::get('/register/verifikasi/{token}', [RegisterController::class, 'verifikasi'])->name('auth.register.verifikasi');
-
     Route::get('/', [LoginController::class, 'index'])->name('auth.login');
     Route::post('/login', [LoginController::class, 'login'])->name('auth.login.post');
-
 
     Route::middleware(['auth'])->prefix('auth')->group(function () {
         Route::get('/keluar', [HomeController::class, 'keluar'])->name('auth.keluar');

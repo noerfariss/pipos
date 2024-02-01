@@ -25,6 +25,7 @@ class ProfilUpdateRequest extends FormRequest
     {
         return [
             'nama' => ['required'],
+            'foto' => ['nullable'],
             'email' => ['required', 'email', Rule::unique('users', 'email')->ignore(Auth::id(), 'id')],
         ];
     }
