@@ -33,7 +33,7 @@ class AppServiceProvider extends ServiceProvider
                 'tanggal_sekarang' => Carbon::now()->timezone($timezone)->isoFormat('dddd, DD MMMM YYYY'),
                 'zonawaktu' => $timezone,
                 'title_web' => $umum->nama,
-                'logo' => ($umum->logo === NULL || $umum->logo === '' || $umum->logo == 'logo') ? env('APP_NAME') : '<img src="' . url('/storage/foto/' . $umum->logo) . '" height="50">',
+                'logo' => ($umum->logo === NULL || $umum->logo === '' || $umum->logo == 'logo') ? $umum->nama : '<img src="' . url('/storage/' . $umum->logo) . '" height="50" class="img-fluid">',
             ]);
         });
     }

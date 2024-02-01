@@ -9,10 +9,15 @@
 
     <title>{{ $title_web }}</title>
 
-    <meta name="description" content="" />
+    <meta name="description" content="Pipos - Pitagoras Point of sales application" />
+    <meta name="author" content="NUR FARIS PRASTYO" />
 
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    <link rel="icon" type="image/x-icon" href="{{ asset('images/favicon.ico') }}" />
+    <link rel="manifest" href="{{ asset('favicon/manifest.json') }}">
+
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="theme-color" content="#ffffff">
+
     <link
         href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
         rel="stylesheet" />
@@ -38,7 +43,7 @@
                         <!-- Logo -->
                         <div class="app-brand justify-content-center">
                             <a href="{{ route('auth.login') }}" class="app-brand-link gap-2">
-                                {{-- <h2 class="">{!! $logo_login !!}</h2> --}}
+                                <h2 class="">{!! $logo !!}</h2>
                             </a>
                         </div>
                         <!-- /Logo -->

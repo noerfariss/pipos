@@ -8,11 +8,7 @@
                     <i class="bx bx-upload d-block d-sm-none"></i>
                 </button>
 
-                @if ($foto)
-                    <input type="hidden" name="foto" id="foto" value="{{ $foto }}">
-                @else
-                    <input type="hidden" name="foto" id="foto" value="">
-                @endif
+                <input type="hidden" name="foto" id="foto" value="">
 
                 <div>
                     <small class="text-muted mb-0">Format : JPG, GIF, PNG. Maksimal ukuran 2000 Kb</small>
@@ -30,6 +26,9 @@
                     @endif
                 @endisset
             </div>
+
+            <button type="button" class="btn btn-xs btn-outline-danger mt-2 mb-2" id="hapusFotoForm"
+                onclick="hapusFoto()"><i class='bx bx-x'></i> Hapus Foto</button>
         </div>
     </div>
 
@@ -65,6 +64,11 @@
     <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
 
     <script>
+        $('#foto').val('{{ $foto }}');
+
+        if ($('#foto').val() == '') {
+            $('#hapusFotoForm').hide();
+        }
         // If you use jQuery, you can use the jQuery plugin Dropzone ships with:
         Dropzone.autoDiscover = false;
 
@@ -109,5 +113,24 @@
                 $('#modalUploadFoto').modal('hide');
                 $('#box-foto').html(`<img src="{{ url('/storage') }}/${foto}" class="rounded img-fluid">`);
             }
+        }
+
+        function hapusFoto() {
+            Swal.fire({
+                title: 'Ingin menghapus foto?',
+                // text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#1A237E',
+                cancelButtonColor: '#B71C1C',
+                confirmButtonText: 'Ya, Hapus!',
+                cancelButtonText: 'Batal',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $('#foto').val('');
+                    $('#box-foto').html('');
+                    $('#hapusFotoForm').hide();
+                }
+            });
         }
     </script>
