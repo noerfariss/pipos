@@ -38,22 +38,28 @@
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item" href="{{ route('password.index') }}">
-                            <i class='bx bxs-key me-2'></i>
-                            <span class="align-middle">Ganti Password</span>
+                        <a class="dropdown-item" href="{{ route('profil.show') }}">
+                            <i class='bx bx-user-circle me-2 mt-1 float-start'></i>
+                            <span class="align-middle">Ganti Profil</span>
                         </a>
                     </li>
                     <li>
-                        {{-- <a class="dropdown-item" href="{{ route('aktivitas') }}">
+                        <a class="dropdown-item" href="{{ route('password.index') }}">
+                            <i class='bx bxs-key me-2 mt-1 float-start'></i>
+                            <span class="align-middle">Ganti Password</span>
+                        </a>
+                    </li>
+                    {{-- <li>
+                        <a class="dropdown-item" href="{{ route('aktivitas') }}">
                             <span class="d-flex align-items-center align-middle">
                                 <i class="flex-shrink-0 bx bx-bar-chart me-2"></i>
                                 <span class="flex-grow-1 align-middle">Aktivitas</span>
                             </span>
-                        </a> --}}
-                    </li>
+                        </a>
+                    </li> --}}
                     <li>
                         <a class="dropdown-item" href="{{ route('auth.keluar') }}" id="btn-logout">
-                            <i class="bx bx-power-off me-2"></i>
+                            <i class="bx bx-power-off me-2 mt-1 float-start"></i>
                             <span class="align-middle">Keluar</span>
                         </a>
                     </li>

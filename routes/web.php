@@ -36,7 +36,6 @@ Route::middleware('xss')->group(function () {
         Route::singleton('profil', ProfilController::class);
         Route::resource('password', PasswordController::class);
 
-
         Route::get('/kasir', [KasirController::class, 'index'])->name('kasir.index');
         Route::post('/kasir/bayar', [KasirController::class, 'bayar'])->name('kasir.bayar');
         Route::post('/kasir/transaksi', [TransaksiController::class, 'ajax'])->name('kasir.transaksi');
@@ -71,7 +70,6 @@ Route::middleware('xss')->group(function () {
         Route::get('/stokout/show/{uuid}', [StokOutController::class, 'show'])->name('stokout.show');
         Route::get('/stokout/create', [StokOutController::class, 'create'])->name('stokout.create');
         Route::post('/stokout', [StokOutController::class, 'store'])->name('stokout.store');
-
 
         Route::resource('banner', BannerController::class);
         Route::post('/banner-ajax', [BannerController::class, 'ajax'])->name('banner.ajax');

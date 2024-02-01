@@ -4,15 +4,8 @@
     <div class="container-xxl flex-grow-1 container-p-y">
         <div class="row">
             <div class="col-md-12">
-                <ul class="nav nav-pills flex-column flex-md-row mb-3">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="{{ route('password.index') }}"><i class='bx bxs-key'></i> Ganti
-                            Password</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href=""><i class='bx bx-bar-chart'></i> Aktivitas</a>
-                    </li>
-                </ul>
+
+                @include('member.profil.headerprofil')
 
                 <div class="card mb-4">
                     <h5 class="card-header">Password</h5>

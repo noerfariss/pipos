@@ -29,6 +29,17 @@ function menuAktif($url = NULL)
     }
 }
 
+function menuAktifProfil($path)
+{
+    $openUrl = url()->current();
+    $parse = parse_url($openUrl, PHP_URL_PATH);
+    $explode = explode('/', $parse);
+
+    if ($path === $explode[2]) {
+        return 'active';
+    }
+}
+
 
 function statusBtn()
 {
