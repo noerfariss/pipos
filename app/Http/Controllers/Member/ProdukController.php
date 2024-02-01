@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Produk\ProdukCreateRequest;
 use App\Http\Requests\Produk\ProdukEditRequest;
 use App\Http\Resources\errorResource;
+use App\Http\Resources\Produk\ProdukDetailResource;
 use App\Http\Resources\Produk\ProdukResource;
 use App\Models\Produk;
 use App\Models\User;
@@ -58,7 +59,7 @@ class ProdukController extends Controller
             ->addColumn('produk', function ($e) {
                 return '
                     <a
-                        href="' . route('produk.show', ['produk' => $e->uuid]) . '"
+                        href="' . route('produk.show', ['produk' => $e->uuid, 'detail' => true]) . '"
                         class="text-dark btn-detail"
                         data-title = "Produk"
                     >
@@ -144,6 +145,11 @@ class ProdukController extends Controller
     {
         try {
             $produk = Produk::where('uuid', $produk)->firstOrFail();
+
+            if (request()->detail) {
+                return new ProdukDetailResource($produk);
+            }
+
             return new ProdukResource($produk);
         } catch (\Throwable $th) {
             Log::warning($th->getMessage());
