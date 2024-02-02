@@ -14,6 +14,11 @@ use Illuminate\Support\Facades\DB;
 
 class KasirController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:KASIR_READ')->only('index');
+    }
+
     public function index()
     {
         return view('member.kasir.index');
