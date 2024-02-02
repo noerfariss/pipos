@@ -9,6 +9,7 @@ use App\Http\Controllers\Member\KategoriController;
 use App\Http\Controllers\Member\MemberController;
 use App\Http\Controllers\Member\PengaturanController;
 use App\Http\Controllers\Member\PasswordController;
+use App\Http\Controllers\Member\PermissionController;
 use App\Http\Controllers\Member\ProdukController;
 use App\Http\Controllers\Member\ProfilController;
 use App\Http\Controllers\Member\RoleController;
@@ -76,6 +77,10 @@ Route::middleware('xss')->group(function () {
         Route::post('/user/password/{user}', [UserController::class, 'password'])->name('user.password');
 
         Route::resource('role', RoleController::class);
+        Route::post('/role-ajax', [RoleController::class, 'ajax'])->name('role.ajax');
+
+        Route::post('/permission-ajax', [PermissionController::class, 'ajax'])->name('permission.ajax');
+
         Route::singleton('pengaturan', PengaturanController::class);
 
         Route::prefix('master')->group(function () {

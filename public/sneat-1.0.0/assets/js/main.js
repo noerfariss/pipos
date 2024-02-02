@@ -501,8 +501,17 @@ $(document).ready(function () {
                     .done(function () {
                         datatables.ajax.reload(null, false);
                     })
-                    .fail(function () {
-                        console.log('ppp');
+                    .fail(function (err) {
+                        const data = err.responseJSON;
+
+                        Swal.fire({
+                            title: 'Terjadi Kesalahan',
+                            html: data.pesan,
+                            icon: 'error',
+                            showCancelButton: false,
+                            showConfirmButton: false,
+                            timer: 3000,
+                        })
                     });
             }
         });
