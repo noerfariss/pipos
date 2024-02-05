@@ -454,6 +454,14 @@
         return angka.toString().replace(/[.,]/g, "");
     }
 
+    function getCurrentDate() {
+        const currentDate = new Date();
+        const currentYear = currentDate.getFullYear();
+        const currentMonth = ("0" + (currentDate.getMonth() + 1)).slice(-2);
+        const currentDay = ("0" + currentDate.getDate()).slice(-2);
+
+        return `${currentYear}-${currentMonth}-${currentDay}`;
+    }
     // ============================ BANTUAN ===============================
     function modalHelp() {
         $('#modalHelp').modal('show');
@@ -610,7 +618,7 @@
             serverSide: true,
             searching: false,
             lengthChange: false,
-            pageLength: 7,
+            pageLength: 10,
             bDestroy: true,
             info: false,
             responsive: true,
@@ -623,6 +631,7 @@
                 data: function(d) {
                     d._token = $("input[name=_token]").val();
                     d.cari = $('#cariTransaksiTable').val();
+                    d.tanggal = getCurrentDate();
                 },
             },
             columns: [{
