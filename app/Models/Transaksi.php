@@ -21,6 +21,20 @@ class Transaksi extends Model
         );
     }
 
+    public function memberDetail(): Attribute
+    {
+
+        return Attribute::make(
+            set: function ($value) {
+                if (gettype($value) == 'array' || $value !== '' || $value !== null) {
+                    return json_encode($value);
+                } else {
+                    return NULL;
+                }
+            }
+        );
+    }
+
     protected static function boot()
     {
         parent::boot();

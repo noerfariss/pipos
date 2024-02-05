@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Kasir;
 
+use App\Models\Member;
 use Illuminate\Foundation\Http\FormRequest;
 
 class BayarRequest extends FormRequest
@@ -25,7 +26,28 @@ class BayarRequest extends FormRequest
             'total' => ['required', 'numeric'],
             'bayar' => ['required', 'numeric'],
             'kembali' => ['required', 'numeric'],
-            'items' => ['required']
+            'items' => ['required'],
+            'member' => ['nullable'],
+            'member_id' => ['nullable'],
+            'member_detail' => ['nullable']
         ];
+    }
+
+    protected function prepareForValidation()
+    {
+        if ($this->member) {
+            $member = Member::where('uuid', $this->member)->first();
+
+            $this->merge([
+                'member_id' => $member->id,
+                'member_detail' => [
+                    'nama' => $member->nama,
+                    'phone' => $member->phone,
+                    'email' => $member->email,
+                    'jenis_kelamin' => genderResource($member->jenis_kelamin),
+                    'kota' => $member->kota->kota
+                ],
+            ]);
+        }
     }
 }

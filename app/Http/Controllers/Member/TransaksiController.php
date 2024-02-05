@@ -17,7 +17,7 @@ class TransaksiController extends Controller
         $data = Transaksi::query()
             ->when($cari, function ($e, $cari) {
                 $e->where(function ($e) use ($cari) {
-                    $e->where('uuid', 'like', '%' . $cari . '%');
+                    $e->where('no_transaksi', 'like', '%' . $cari . '%');
                 });
             })
             ->whereDate('created_at', Carbon::now()->isoFormat('YYYY-MM-DD'));
