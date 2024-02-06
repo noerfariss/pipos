@@ -36,6 +36,8 @@ Route::middleware('xss')->group(function () {
         Route::get('/kasir', [KasirController::class, 'index'])->name('kasir.index');
         Route::post('/kasir/bayar', [KasirController::class, 'bayar'])->name('kasir.bayar');
         Route::post('/kasir/transaksi', [TransaksiController::class, 'ajax'])->name('kasir.transaksi');
+        Route::get('/transaksi', [TransaksiController::class, 'index'])->name('transaksi.index');
+        Route::get('/transaksi/{transaksi}', [TransaksiController::class, 'show'])->name('transaaksi.show');
 
         Route::resource('kategori', KategoriController::class);
         Route::post('/kategori-ajax', [KategoriController::class, 'ajax'])->name('kategori.ajax');

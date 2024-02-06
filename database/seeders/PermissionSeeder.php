@@ -71,6 +71,8 @@ class PermissionSeeder extends Seeder
         Permission::create(['name' => 'STOKOUT_PRINT']);
 
         Permission::create(['name' => 'KASIR_READ']);
+        Permission::create(['name' => 'TRANSAKSI_READ']);
+        Permission::create(['name' => 'TRANSAKSI_PRINT']);
 
 
         $superadmin = Role::where('name', 'superadmin')->first();
@@ -118,6 +120,7 @@ class PermissionSeeder extends Seeder
             'PENGATURAN_READ',
             'PENGATURAN_EDIT',
             'KASIR_READ',
+            'TRANSAKSI_READ',
             'USERWEB_READ',
             'USERWEB_CREATE',
             'USERWEB_EDIT',

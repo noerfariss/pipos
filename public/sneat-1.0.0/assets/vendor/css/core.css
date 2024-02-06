@@ -18409,3 +18409,7 @@ table tbody tr td {
 div.dataTables_wrapper div.dataTables_scrollBody {
     min-height: 300px;
 }
+
+#datatable tbody tr{
+    cursor: pointer;
+}

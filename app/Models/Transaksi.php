@@ -14,6 +14,11 @@ class Transaksi extends Model
     protected $guarded = [];
 
 
+    public function member()
+    {
+        return $this->belongsTo(Member::class, 'member_id');
+    }
+
     public function items(): Attribute
     {
         return Attribute::make(

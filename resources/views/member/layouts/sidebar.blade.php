@@ -22,7 +22,7 @@
             </a>
         </li>
 
-        @haspermission('KASIR_READ')
+        @can('KASIR_READ')
             <li class="menu-header small text-uppercase"><span class="menu-header-text">Aktivitas</span></li>
             <li class="menu-item {{ menuAktif('kasir') }}">
                 <a href="{{ route('kasir.index') }}" class="menu-link">
@@ -30,113 +30,122 @@
                     <div data-i18n="Analytics">Kasir </div>
                 </a>
             </li>
-        @endhaspermission
+        @endcan
 
-        @haspermission(['PRODUK_READ', 'KATEGORI_READ', 'SUPLIER_READ', 'UNIT_READ'])
+        @canany(['PRODUK_READ', 'KATEGORI_READ', 'SUPLIER_READ', 'UNIT_READ'])
             <li class="menu-header small text-uppercase"><span class="menu-header-text">Data Produk</span></li>
-        @endhaspermission
+        @endcanany
 
-        @haspermission('PRODUK_READ')
+        @can('PRODUK_READ')
             <li class="menu-item {{ menuAktif('produk') }}">
                 <a href="{{ route('produk.index') }}" class="menu-link">
                     <i class="menu-icon tf-icons bx bx-data"></i>
                     <div data-i18n="Analytics">Produk</div>
                 </a>
             </li>
-        @endhaspermission
+        @endcan
 
-        @haspermission('KATEGORI_READ')
+        @can('KATEGORI_READ')
             <li class="menu-item {{ menuAktif('kategori') }}">
                 <a href="{{ route('kategori.index') }}" class="menu-link">
                     <i class="menu-icon tf-icons bx bx-category-alt"></i>
                     <div data-i18n="Analytics">Kategori</div>
                 </a>
             </li>
-        @endhaspermission
+        @endcan
 
-        @haspermission('SUPLIER_READ')
+        @can('SUPLIER_READ')
             <li class="menu-item {{ menuAktif('suplier') }}">
                 <a href="{{ route('suplier.index') }}" class="menu-link">
                     <i class="menu-icon tf-icons bx bx-package"></i>
                     <div data-i18n="Analytics">Suplier</div>
                 </a>
             </li>
-        @endhaspermission
+        @endcan
 
-        @haspermission('UNIT_READ')
+        @can('UNIT_READ')
             <li class="menu-item {{ menuAktif('unit') }}">
                 <a href="{{ route('unit.index') }}" class="menu-link">
                     <i class="menu-icon tf-icons bx bx-cable-car"></i>
                     <div data-i18n="Analytics">Unit</div>
                 </a>
             </li>
-        @endhaspermission
+        @endcan
 
 
-        @haspermission('MEMBER_READ')
-            <li class="menu-header small text-uppercase"><span class="menu-header-text">Data Member</span></li>
-            <li class="menu-item {{ menuAktif('member') }}">
-                <a href="{{ route('member.index') }}" class="menu-link">
-                    <i class="menu-icon tf-icons bx bxs-user-account"></i>
-                    <div data-i18n="Analytics">Member</div>
+        @canany(['TRANSAKSI_READ', 'STOKIN_READ', 'STOKOUT_READ'])
+            <li class="menu-header small text-uppercase"><span class="menu-header-text">Laporan</span></li>
+        @endcanany
+
+        @can('TRANSAKSI_READ')
+            <li class="menu-item {{ menuAktif('transaksi') }}">
+                <a href="{{ route('transaksi.index') }}" class="menu-link">
+                    <i class="menu-icon tf-icons bx bx-math"></i>
+                    <div data-i18n="Analytics">Transaksi</div>
                 </a>
             </li>
-        @endhaspermission
+        @endcan
 
-        @haspermission(['STOKIN_READ', 'STOKOUT_READ'])
-            <li class="menu-header small text-uppercase"><span class="menu-header-text">Report</span></li>
-        @endhaspermission
 
-        @haspermission('STOKIN_READ')
+        @can('STOKIN_READ')
             <li class="menu-item {{ menuAktif('stokin') }}">
                 <a href="{{ route('stokin.index') }}" class="menu-link">
                     <i class="menu-icon tf-icons bx bx-cart-add"></i>
                     <div data-i18n="Analytics">Stok Masuk</div>
                 </a>
             </li>
-        @endhaspermission
+        @endcan
 
-        @haspermission('STOKOUT_READ')
+        @can('STOKOUT_READ')
             <li class="menu-item {{ menuAktif('stokout') }}">
                 <a href="{{ route('stokout.index') }}" class="menu-link">
                     <i class="menu-icon tf-icons bx bx-link-external"></i>
                     <div data-i18n="Analytics">Stok Keluar</div>
                 </a>
             </li>
-        @endhaspermission
+        @endcan
 
 
 
-        @haspermission('PENGATURAN_READ')
+        @canany(['PENGATURAN_READ', 'USERWEB_READ', 'MEMBER_READ', 'ROLE_READ'])
             <li class="menu-header small text-uppercase"><span class="menu-header-text">Pengaturan</span></li>
-        @endhaspermission
+        @endcanany
 
-        @haspermission('USERWEB_READ')
+        @can('MEMBER_READ')
+            <li class="menu-item {{ menuAktif('member') }}">
+                <a href="{{ route('member.index') }}" class="menu-link">
+                    <i class="menu-icon tf-icons bx bxs-user-account"></i>
+                    <div data-i18n="Analytics">Member</div>
+                </a>
+            </li>
+        @endcan
+
+        @can('USERWEB_READ')
             <li class="menu-item {{ menuAktif('user') }}">
                 <a href="{{ route('user.index') }}" class="menu-link">
                     <i class="menu-icon tf-icons bx bx-user"></i>
                     <div data-i18n="Analytics">User</div>
                 </a>
             </li>
-        @endhaspermission
+        @endcan
 
-        @haspermission('ROLE_READ')
+        @can('ROLE_READ')
             <li class="menu-item {{ menuAktif('role') }}">
                 <a href="{{ route('role.index') }}" class="menu-link">
                     <i class="menu-icon tf-icons bx bx-outline"></i>
                     <div data-i18n="Analytics">Role</div>
                 </a>
             </li>
-        @endhaspermission
+        @endcan
 
-        @haspermission('PENGATURAN_READ')
+        @can('PENGATURAN_READ')
             <li class="menu-item {{ menuAktif('pengaturan') }}">
                 <a href="{{ route('pengaturan.show') }}" class="menu-link">
                     <i class="menu-icon tf-icons bx bx-cog"></i>
                     <div data-i18n="Analytics">Pengaturan</div>
                 </a>
             </li>
-        @endhaspermission
+        @endcan
 
     </ul>
 </aside>
