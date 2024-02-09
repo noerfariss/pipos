@@ -48,6 +48,7 @@ class HomeController extends Controller
             $sumItems = collect($dataItems)->sum('qty');
 
             // total kategori
+            $kategori = collect($dataItems)->groupBy('kategori')->count();
 
 
             // total member
@@ -59,7 +60,7 @@ class HomeController extends Controller
             $data = [
                 'total' => $total,
                 'items' => $sumItems,
-                'categories' => 0,
+                'categories' => $kategori,
                 'members' => $member
             ];
 
