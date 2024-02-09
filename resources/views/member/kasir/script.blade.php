@@ -586,8 +586,12 @@
                 },
                 {
                     data: 'barcode',
-                    render: function(data) {
-                        return `<button type="button" class="btn btn-xs btn-outline-primary" onclick="tambahItemFromProdukModal(${data})">tambah</button>`;
+                    render: function(data, type, row) {
+                        const stok = row.stok;
+
+                        return stok > 0 ?
+                            `<button type="button" class="btn btn-xs btn-outline-primary" onclick="tambahItemFromProdukModal('${data}')">tambah</button>` :
+                            '';
                     }
                 }
             ]

@@ -85,7 +85,9 @@
 
 
 
-             @include('member.layouts.footer')
+             <div class="mt-5">
+                 @include('member.layouts.footer')
+             </div>
 
          </div>
 
