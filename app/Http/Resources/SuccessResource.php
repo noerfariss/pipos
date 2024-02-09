@@ -16,17 +16,20 @@ class SuccessResource extends JsonResource
 
     public $message;
     public $status;
+    public $data;
 
     public function __construct($request = '')
     {
         $this->message = isset($request['message']) ? $request['message'] : '';
         $this->status = isset($request['status']) ? $request['status'] : '';
+        $this->data = isset($request['data']) ? $request['data'] : '';
     }
 
     public function toArray(Request $request): array
     {
         return [
-            'message' => $this->message ? $this->message : 'Success'
+            'message' => $this->message ? $this->message : 'Success',
+            'data' => $this->data ? $this->data : [],
         ];
     }
 

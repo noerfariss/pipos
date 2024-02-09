@@ -97,6 +97,7 @@
 
                 const id = data.uuid;
                 const produk = data.produk;
+                const kategori = data.kategori;
                 const harga = data.harga_asli;
                 const subtotal = harga * qty;
                 const currentStok = data.stok;
@@ -139,6 +140,7 @@
                     const newItems = {
                         'nomor': nomor,
                         'id': id,
+                        'kategori': kategori,
                         'produk': produk,
                         'harga': harga,
                         'qty': qty,
