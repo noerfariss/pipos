@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Support\Facades\Auth;
 
 class Transaksi extends Model
 {
@@ -45,6 +46,9 @@ class Transaksi extends Model
         parent::boot();
 
         static::creating(function ($e) {
+
+            $e->user_id = Auth::id();
+
             $tahun_sekarang = date('y'); // tahun 2024 --> 24
             $bulan_sekarang = date('n'); // bulan Mei --> 5
             $strBulan = date('m'); // bulan Mei --> 05
