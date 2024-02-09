@@ -50,4 +50,16 @@ class LoginController extends Controller
             return redirect()->route('auth.login')->with('pesan', '<div class="alert alert-danger">Terjadi kesalahan, cobalah kembali</div>');
         }
     }
+
+    public function logout()
+    {
+        activity()
+            ->causedBy(Auth::id())
+            ->useLog('logout')
+            ->log(request()->ip());
+
+        Auth::logout();
+
+        return redirect()->route('auth.login');
+    }
 }

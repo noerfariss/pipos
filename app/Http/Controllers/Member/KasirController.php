@@ -28,7 +28,7 @@ class KasirController extends Controller
     {
         DB::beginTransaction();
         try {
-            Transaksi::create($request->only(['total', 'bayar', 'kembali', 'items']));
+            Transaksi::create($request->only(['total', 'bayar', 'kembali', 'items', 'member_id', 'member_detail']));
 
             // insert to history stok
             foreach ($request->items as $item) {

@@ -27,15 +27,23 @@ Route::middleware('xss')->group(function () {
     Route::post('/login', [LoginController::class, 'login'])->name('auth.login.post');
 
     Route::middleware(['auth'])->prefix('auth')->group(function () {
-        Route::get('/keluar', [HomeController::class, 'keluar'])->name('auth.keluar');
+        Route::get('/keluar', [LoginController::class, 'logout'])->name('auth.keluar');
         Route::get('/', [HomeController::class, 'index'])->name('auth.index');
 
         Route::singleton('profil', ProfilController::class);
         Route::resource('password', PasswordController::class);
 
+        Route::prefix('chart')->group(function () {
+            Route::post('/summary-transaction', [HomeController::class, 'summaryTransaction'])->name('chart.summary.transaction');
+            Route::post('/daily-transaction', [HomeController::class, 'dailyTransaction'])->name('chart.daily.transaction');
+            Route::post('/member-transaction', [HomeController::class, 'memberTransaction'])->name('chart.member.transaction');
+        });
+
         Route::get('/kasir', [KasirController::class, 'index'])->name('kasir.index');
         Route::post('/kasir/bayar', [KasirController::class, 'bayar'])->name('kasir.bayar');
         Route::post('/kasir/transaksi', [TransaksiController::class, 'ajax'])->name('kasir.transaksi');
+        Route::get('/transaksi', [TransaksiController::class, 'index'])->name('transaksi.index');
+        Route::get('/transaksi/{transaksi}', [TransaksiController::class, 'show'])->name('transaaksi.show');
 
         Route::resource('kategori', KategoriController::class);
         Route::post('/kategori-ajax', [KategoriController::class, 'ajax'])->name('kategori.ajax');

@@ -97,6 +97,7 @@
 
                 const id = data.uuid;
                 const produk = data.produk;
+                const kategori = data.kategori;
                 const harga = data.harga_asli;
                 const subtotal = harga * qty;
                 const currentStok = data.stok;
@@ -139,6 +140,7 @@
                     const newItems = {
                         'nomor': nomor,
                         'id': id,
+                        'kategori': kategori,
                         'produk': produk,
                         'harga': harga,
                         'qty': qty,
@@ -160,6 +162,50 @@
         }
     }
 
+    const getMemberDetail = async (memberCode) => {
+        const baseUrl = '{{ url('/') }}';
+
+        try {
+            const req = await fetch(`${baseUrl}/auth/member/customer`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json' // Anda dapat mengubah tipe konten sesuai kebutuhan
+                },
+                body: JSON.stringify({
+                    _token: $('input[name="_token"]').val(),
+                    key: memberCode
+                })
+            });
+
+            const res = await req.json();
+
+            if (!req.ok) {
+                $('#member_detail').hide();
+
+                Swal.fire({
+                    title: res.message,
+                    icon: 'error',
+                    showCancelButton: false,
+                    showConfirmButton: false,
+                    timer: 3000
+                });
+
+            } else {
+                const data = res.data;
+
+                $('#member_detail').show();
+                $('#member_uuid').val(data.uuid);
+                $('#member_nama').text(data.nama);
+                $('#member_phone').text(data.whatsapp);
+                $('#member_alamat').text(data.alamat);
+            }
+
+        } catch (error) {
+            console.log(error);
+            $('#member_detail').hide();
+        }
+    }
+
     $(document).ready(function() {
         // =---- Init
         $('.member[value="0"]').prop('checked', true);
@@ -168,6 +214,12 @@
         $('#member_detail').hide();
         $('#member_item_qty').val(1);
         $('#member_item_cari').val('');
+        $('#member_detail').hide();
+        $('#member_uuid').val('');
+        $('#member_nama').text('');
+        $('#member_phone').text('');
+        $('#member_alamat').text('');
+
         $('.totalAll').text(0);
         $('.totalAllModal').text(0);
         $('#totalAllModalValue').val(0);
@@ -185,6 +237,10 @@
             } else {
                 $('#member_cari').attr('disabled', 'disabled').val('');
                 $('#member_detail').hide();
+                $('#member_uuid').val('');
+                $('#member_nama').text('');
+                $('#member_phone').text('');
+                $('#member_alamat').text('');
             }
         });
 
@@ -193,56 +249,9 @@
         $('#member_cari_form').submit(function(e) {
             e.preventDefault();
             const memberCode = $('#member_cari').val();
-            const baseUrl = '{{ url('/') }}';
-            const token = $('input[name="_token"]').val();
 
             if (memberCode !== '' && memberCode !== null) {
-                const getData = async () => {
-                    try {
-                        const req = await fetch(`${baseUrl}/auth/member/customer`, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json' // Anda dapat mengubah tipe konten sesuai kebutuhan
-                            },
-                            body: JSON.stringify({
-                                _token: token,
-                                key: memberCode
-                            })
-                        });
-
-                        const res = await req.json();
-
-                        if (!req.ok) {
-                            $('#member_detail').hide();
-
-                            Swal.fire({
-                                title: res.message,
-                                icon: 'error',
-                                showCancelButton: false,
-                                showConfirmButton: false,
-                                timer: 3000
-                            });
-
-                        } else {
-                            const data = res.data;
-
-                            $('#member_detail').show();
-                            $('#member_uuid').val(data.uuid);
-                            $('#member_nama').text(data.nama);
-                            $('#member_phone').text(data.whatsapp);
-                            $('#member_alamat').text(data.alamat);
-                        }
-
-
-
-
-                    } catch (error) {
-                        console.log(error);
-                        $('#member_detail').hide();
-                    }
-                }
-
-                getData();
+                getMemberDetail(memberCode);
             }
 
         });
@@ -375,6 +384,7 @@
                         bayar: formatAngkaTanpaNol(bayar),
                         kembali: kembali,
                         items: itemsArray,
+                        member: $('#member_uuid').val(),
                     },
                 })
                 .done(function(msg) {
@@ -409,6 +419,19 @@
             $('#btn-bayar').removeAttr('disabled');
         } else {
             $('#btn-bayar').attr('disabled', 'disabled');
+
+            // reset member detail
+            $('#member_detail').hide();
+            $('#member_uuid').val('');
+            $('#member_nama').text('');
+            $('#member_phone').text('');
+            $('#member_alamat').text('');
+
+            // reset umum/member button
+            $('#member_cari').val('').attr('disabled', 'disabled');
+            $('#member_umum').prop('checked', true);
+            $('#member_member').prop('checked', false);
+            $('.btn-check2:checked').css('background-color', '#0e0e55');
         }
 
     }
@@ -431,6 +454,85 @@
 
     function formatAngkaTanpaNol(angka) {
         return angka.toString().replace(/[.,]/g, "");
+    }
+
+    function getCurrentDate() {
+        const currentDate = new Date();
+        const currentYear = currentDate.getFullYear();
+        const currentMonth = ("0" + (currentDate.getMonth() + 1)).slice(-2);
+        const currentDay = ("0" + currentDate.getDate()).slice(-2);
+
+        return `${currentYear}-${currentMonth}-${currentDay}`;
+    }
+    // ============================ BANTUAN ===============================
+    function modalHelp() {
+        $('#modalHelp').modal('show');
+    }
+
+    // ======================= MODAL MEMBER ========================
+    function modalMember(e) {
+        e.preventDefault();
+        $('#modalMember').modal('show');
+        $('#cariMemberTable').val('');
+
+        var memberTable = $('#memberTable').DataTable({
+            scrollX: true,
+            scrollY: false,
+            processing: true,
+            serverSide: true,
+            searching: false,
+            lengthChange: false,
+            pageLength: 7,
+            bDestroy: true,
+            info: false,
+            responsive: true,
+            // order: [
+            //     [2, 'desc']
+            // ],
+            ajax: {
+                url: "{{ route('member.ajax') }}",
+                type: "POST",
+                data: function(d) {
+                    d._token = $("input[name=_token]").val();
+                    d.status = 'y';
+                    d.cari = $('#cariMemberTable').val();
+                },
+            },
+            columns: [{
+                    data: 'member'
+                },
+                {
+                    data: 'phone'
+                },
+                {
+                    data: 'email',
+                },
+                {
+                    data: 'jenis_kelamin',
+                },
+                {
+                    data: 'phone',
+                    render: function(data) {
+                        return `<button type="button" class="btn btn-xs btn-outline-primary" onclick="tambahMembertoKasir('${data}')">tambah</button>`;
+                    }
+                }
+            ]
+        });
+
+        $('#cariMemberTable').keyup(function() {
+            memberTable.search($('#cariMemberTable').val()).draw();
+        });
+    }
+
+    function tambahMembertoKasir(memberCode) {
+        $('#member_cari').val(memberCode).removeAttr('disabled');
+        $('#member_umum').removeAttr('checked');
+        $('#member_member').prop('checked', true);
+
+        $('.btn-check2:checked').css('background-color', '#0e0e55');
+
+        $('#modalMember').modal('hide');
+        getMemberDetail(memberCode);
     }
 
     // ============================ BAYAR ===============================
@@ -484,8 +586,12 @@
                 },
                 {
                     data: 'barcode',
-                    render: function(data) {
-                        return `<button type="button" class="btn btn-xs btn-outline-primary" onclick="tambahItemFromProdukModal(${data})">tambah</button>`;
+                    render: function(data, type, row) {
+                        const stok = row.stok;
+
+                        return stok > 0 ?
+                            `<button type="button" class="btn btn-xs btn-outline-primary" onclick="tambahItemFromProdukModal('${data}')">tambah</button>` :
+                            '';
                     }
                 }
             ]
@@ -518,7 +624,7 @@
             serverSide: true,
             searching: false,
             lengthChange: false,
-            pageLength: 7,
+            pageLength: 10,
             bDestroy: true,
             info: false,
             responsive: true,
@@ -531,6 +637,7 @@
                 data: function(d) {
                     d._token = $("input[name=_token]").val();
                     d.cari = $('#cariTransaksiTable').val();
+                    d.tanggal = getCurrentDate();
                 },
             },
             columns: [{
@@ -567,11 +674,11 @@
 
     $(document).keydown(function(event) {
         if (event.which === 112) { // F1
-            alert('F1 Bantuan');
+            modalHelp();
         }
 
         if (event.which === 113) { // F2
-            alert('F2 Cari Customer');
+            modalMember(event);
         }
 
         if (event.which === 114) { // F3

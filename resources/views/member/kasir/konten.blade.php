@@ -2,7 +2,7 @@
      <div class="row">
          <div class="col-sm-3">
              <div class="card">
-                 <h5 class="card-header">Customer</h5>
+                 <h5 class="card-header">Member</h5>
                  <div class="card-body">
                      {{-- member --}}
                      <div class="row">
@@ -15,7 +15,7 @@
 
                                  <input type="radio" class="btn-check2 member" name="btnradio" id="member_member"
                                      value="1" autocomplete="off">
-                                 <label class="btn btn-outline-primary" for="member_member">Member</label>
+                                 <label class="btn btn-outline-primary" for="member_member">Member (F2)</label>
 
                              </div>
                          </div>
@@ -85,7 +85,9 @@
 
 
 
-             @include('member.layouts.footer')
+             <div class="mt-5">
+                 @include('member.layouts.footer')
+             </div>
 
          </div>
 
@@ -93,7 +95,7 @@
              <div class="card" style="height: 83vh;">
                  <div class="card-body">
                      <section>
-                         <h1>Rp <span class="float-end totalAll">0</span></h1>
+                         <h1><span class="float-end totalAll">0</span></h1>
                      </section>
                  </div>
 
@@ -134,6 +136,10 @@
 
      </div>
  </div>
+
+ @include('member.kasir.modalHelp')
+
+ @include('member.kasir.modalMember')
 
  @include('member.kasir.modalProduk')
 
