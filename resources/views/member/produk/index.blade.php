@@ -50,22 +50,7 @@
         </div>
     </div>
 
-
-    <!-- Modal -->
-    <div class="modal fade" id="modalDetailTable" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-        aria-labelledby="modalDetailTableLabel" aria-hidden="true">
-        <div class="modal-dialog modal-md">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalDetailTableLabel"></h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body" id="modalDetailTableBody">
-
-                </div>
-            </div>
-        </div>
-    </div>
+    @include('member.layouts.modalDetailTable')
 @endsection
 
 @section('script')
@@ -83,7 +68,6 @@
             lengthChange: false,
             pageLength: 10,
             bDestroy: true,
-            info: false,
             responsive: true,
             order: [
                 [6, 'desc']
@@ -102,7 +86,12 @@
                     data: 'foto'
                 },
                 {
-                    data: 'produk'
+                    data: 'produk',
+                    render: function(data, type, row) {
+                        const barcode = row.barcode;
+                        return `<div><b>${data}</b></div>
+                                <div>${barcode}</div>`;
+                    }
                 },
                 {
                     data: 'kategori_id'
@@ -130,6 +119,65 @@
 
         $('#cari').keyup(function() {
             datatables.search($('#cari').val()).draw();
+        });
+
+        $('#datatable tbody').on('click', 'tr td:not(:last-child)', function() {
+            $('#modalTransaksiDetail').modal('show');
+
+            const data = datatables.row(this).data();
+            $('#modalDetailTable').modal('show');
+            $('#modalDetailTableLabel').text('PRODUK DETAIL');
+
+            const dataTable = `
+                <table class="table table-sm table-hover">
+                    <tbody>
+                        <tr>
+                            <td class="col-form-label">barcode</td>
+                            <td>:</td>
+                            <td>${data.barcode}</td>
+                        </tr>
+                        <tr>
+                            <td class="col-form-label">produk</td>
+                            <td>:</td>
+                            <td>${data.produk}</td>
+                        </tr>
+                        <tr>
+                            <td class="col-form-label">kategori</td>
+                            <td>:</td>
+                            <td>${data.kategori_id}</td>
+                        </tr>
+                        <tr>
+                            <td class="col-form-label">keterangan</td>
+                            <td>:</td>
+                            <td>${data.keterangan}</td>
+                        </tr>
+                        <tr>
+                            <td class="col-form-label">stok</td>
+                            <td>:</td>
+                            <td>${data.stok}</td>
+                        </tr>
+                        <tr>
+                            <td class="col-form-label">stok warning</td>
+                            <td>:</td>
+                            <td>${data.stok_warning}</td>
+                        </tr>
+                        <tr>
+                            <td class="col-form-label">unit</td>
+                            <td>:</td>
+                            <td>${data.unit}</td>
+                        </tr>
+                        <tr>
+                            <td class="col-form-label">harga</td>
+                            <td>:</td>
+                            <td>${formatRupiah(data.harga)}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <section class="mt-5 text-center">${data.foto}</section>
+            `;
+
+            $('#modalDetailTableBody').html(dataTable);
         });
 
         function formatRupiah(angka) {

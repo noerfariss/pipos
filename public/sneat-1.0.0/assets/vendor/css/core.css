@@ -18413,3 +18413,7 @@ div.dataTables_wrapper div.dataTables_scrollBody {
 #datatable tbody tr{
     cursor: pointer;
 }
+
+#datatable_info{
+    margin: 24px !important;
+}

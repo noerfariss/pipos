@@ -67,12 +67,10 @@ class StokInController extends Controller
         }
 
         return DataTables::eloquent($data)
-            ->addColumn('kode_produk', fn ($e) => $e->produk ? '<a href="' . route('stokin.show', ['uuid' => $e->uuid]) . '" class="text-dark btn-detail" data-title = "STOK MASUK">' . $e->produk->barcode . '</a>' : '-')
-            ->addColumn('produk', fn ($e) => $e->produk ? '<a href="' . route('stokin.show', ['uuid' => $e->uuid]) . '" class="text-dark btn-detail" data-title = "STOK MASUK">' . $e->produk->produk . '</a>' : '-')
-            ->addColumn('suplier', fn ($e) => $e->suplier ? '<a href="' . route('stokin.show', ['uuid' => $e->uuid]) . '" class="text-dark btn-detail" data-title = "STOK MASUK">' . $e->suplier->suplier . '</a>' : '-')
-            ->editColumn('keterangan', fn ($e) => Str::words($e->keterangan, 5, '...'))
+            ->addColumn('kode_produk', fn ($e) => $e->produk ? $e->produk->barcode : '-')
+            ->addColumn('produk', fn ($e) => $e->produk ? $e->produk->produk : '-')
+            ->addColumn('suplier', fn ($e) => $e->suplier ? $e->suplier->suplier : '-')
             ->editColumn('created_at', fn ($e) => Carbon::parse($e->created_at)->timezone(session('zonawaktu'))->isoFormat('DD MMM YYYY HH:mm'))
-            ->rawColumns(['kode_produk', 'produk', 'suplier'])
             ->make(true);
     }
 

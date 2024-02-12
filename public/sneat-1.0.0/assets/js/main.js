@@ -559,3 +559,25 @@ $(document).ready(function () {
     });
 
 });
+
+
+function potongTeks(teks, jumlahKata) {
+    // Pisahkan teks menjadi array kata-kata
+    if (teks !== null) {
+
+        let kata = teks.split(' ');
+
+        // Periksa apakah jumlah kata dalam teks lebih besar dari jumlah yang diinginkan
+        if (kata.length > jumlahKata) {
+            // Potong array kata-kata hingga jumlah kata yang diinginkan
+            kata = kata.slice(0, jumlahKata);
+
+            // Gabungkan kembali array kata-kata menjadi teks
+            teks = kata.join(' ') + '...'; // Tambahkan elipsis sebagai penanda bahwa teks dipotong
+        }
+
+        return teks;
+    } else {
+        return '';
+    }
+}

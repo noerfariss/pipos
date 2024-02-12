@@ -26,7 +26,7 @@ class StokInRequest extends FormRequest
             'produk_id' => ['required'],
             'qty' => ['required', 'numeric', 'min:1'],
             'suplier_id' => ['nullable'],
-            'keterangan' => ['nullable']
+            'keterangan' => ['required_if:suplier_id,null']
         ];
     }
 
@@ -42,6 +42,13 @@ class StokInRequest extends FormRequest
         return [
             'suplier_id' => 'Suplier',
             'produk_id' => 'Produk'
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'keterangan.required_if' => 'Keterangan wajib diisi jika Suplier tidak dipilih'
         ];
     }
 }

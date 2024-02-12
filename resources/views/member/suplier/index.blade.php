@@ -44,6 +44,8 @@
             </table>
         </div>
     </div>
+
+    @include('member.layouts.modalDetailTable')
 @endsection
 
 @section('script')
@@ -61,7 +63,6 @@
             lengthChange: false,
             pageLength: 10,
             bDestroy: true,
-            info: false,
             ajax: {
                 url: "{{ route('suplier.ajax') }}",
                 type: "POST",
@@ -78,7 +79,10 @@
                     data: 'suplier'
                 },
                 {
-                    data: 'alamat'
+                    data: 'alamat',
+                    render: function(data) {
+                        return potongTeks(data, 7);
+                    }
                 },
                 {
                     data: 'status'
@@ -89,8 +93,56 @@
             ]
         });
 
+        $('#datatable tbody').on('click', 'tr td:not(:last-child)', function() {
+            $('#modalTransaksiDetail').modal('show');
+
+            const data = datatables.row(this).data();
+            $('#modalDetailTable').modal('show');
+            $('#modalDetailTableLabel').text('SUPLIER DETAIL');
+
+            const dataTable = `
+                <table class="table table-sm table-hover">
+                    <tbody>
+                        <tr>
+                            <td class="col-form-label">kode</td>
+                            <td>:</td>
+                            <td>${data.kode_label}</td>
+                        </tr>
+                        <tr>
+                            <td class="col-form-label">suplier</td>
+                            <td>:</td>
+                            <td>${data.suplier}</td>
+                        </tr>
+                        <tr>
+                            <td class="col-form-label">alamat</td>
+                            <td>:</td>
+                            <td>${data.alamat}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            `;
+
+            $('#modalDetailTableBody').html(dataTable);
+        });
+
         $('#cari').keyup(function() {
             datatables.search($('#cari').val()).draw();
         });
+
+        function potongTeks(teks, jumlahKata) {
+            // Pisahkan teks menjadi array kata-kata
+            var kata = teks.split(' ');
+
+            // Periksa apakah jumlah kata dalam teks lebih besar dari jumlah yang diinginkan
+            if (kata.length > jumlahKata) {
+                // Potong array kata-kata hingga jumlah kata yang diinginkan
+                kata = kata.slice(0, jumlahKata);
+
+                // Gabungkan kembali array kata-kata menjadi teks
+                teks = kata.join(' ') + '...'; // Tambahkan elipsis sebagai penanda bahwa teks dipotong
+            }
+
+            return teks;
+        }
     </script>
 @endsection

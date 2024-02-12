@@ -37,6 +37,7 @@
                         <th>kode</th>
                         <th>kategori</th>
                         <th>item</th>
+                        <th>sku stok</th>
                         <th>status</th>
                         <th></th>
                     </tr>
@@ -44,6 +45,8 @@
             </table>
         </div>
     </div>
+
+    @include('member.layouts.modalDetailTable')
 @endsection
 
 @section('script')
@@ -61,7 +64,6 @@
             lengthChange: false,
             pageLength: 10,
             bDestroy: true,
-            info: false,
             ajax: {
                 url: "{{ route('kategori.ajax') }}",
                 type: "POST",
@@ -78,7 +80,10 @@
                     data: 'kategori'
                 },
                 {
-                    data: 'kategori'
+                    data: 'produk_count'
+                },
+                {
+                    data: 'total_stok'
                 },
                 {
                     data: 'status'
@@ -91,6 +96,43 @@
 
         $('#cari').keyup(function() {
             datatables.search($('#cari').val()).draw();
+        });
+
+        $('#datatable tbody').on('click', 'tr td:not(:last-child)', function() {
+            $('#modalTransaksiDetail').modal('show');
+
+            const data = datatables.row(this).data();
+            $('#modalDetailTable').modal('show');
+            $('#modalDetailTableLabel').text('KATEGORI DETAIL');
+
+            const dataTable = `
+                <table class="table table-sm table-hover">
+                    <tbody>
+                        <tr>
+                            <td class="col-form-label">kode</td>
+                            <td>:</td>
+                            <td>${data.kode_label}</td>
+                        </tr>
+                        <tr>
+                            <td class="col-form-label">kategori</td>
+                            <td>:</td>
+                            <td>${data.kategori}</td>
+                        </tr>
+                        <tr>
+                            <td class="col-form-label">items</td>
+                            <td>:</td>
+                            <td>${data.produk_count}</td>
+                        </tr>
+                        <tr>
+                            <td class="col-form-label">sku stok</td>
+                            <td>:</td>
+                            <td>${data.total_stok}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            `;
+
+            $('#modalDetailTableBody').html(dataTable);
         });
     </script>
 @endsection

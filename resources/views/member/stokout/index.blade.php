@@ -12,7 +12,8 @@
                         <input type="text" name="tanggal" id="tanggal" class="form-control">
                     </div>
                     <div class="col-sm-2 col-6 mt-2">
-                        <select name="tipe" id="tipe" class="form-control select2" onchange="datatables.ajax.reload()">
+                        <select name="tipe" id="tipe" class="form-control select2"
+                            onchange="datatables.ajax.reload()">
                             <option value="">-- Tipe --</option>
                             <option value="2">Stok Keluar</option>
                             <option value="3">Penjualan</option>
@@ -45,7 +46,6 @@
                         <th>kode produk</th>
                         <th>produk</th>
                         <th>qty</th>
-                        <th>suplier</th>
                         <th>alasan</th>
                         <th>keterangan</th>
                     </tr>
@@ -101,7 +101,6 @@
             lengthChange: false,
             pageLength: 10,
             bDestroy: true,
-            info: false,
             responsive: true,
             order: [
                 [0, 'desc']
@@ -132,15 +131,67 @@
                     data: 'qty',
                 },
                 {
-                    data: 'suplier'
-                },
-                {
                     data: 'reason'
                 },
                 {
-                    data: 'keterangan'
+                    data: 'keterangan',
+                    render: function(data) {
+                        return potongTeks(data, 7);
+                    }
                 },
             ]
+        });
+
+        $('#datatable tbody').on('click', 'tr', function() {
+            $('#modalTransaksiDetail').modal('show');
+
+            const data = datatables.row(this).data();
+            $('#modalDetailTable').modal('show');
+            $('#modalDetailTableLabel').text('STOK KELUAR');
+
+            const dataTable = `
+                <table class="table table-sm table-hover">
+                    <tbody>
+                        <tr>
+                            <td class="col-form-label">tanggal</td>
+                            <td>:</td>
+                            <td>${data.created_at}</td>
+                        </tr>
+                        <tr>
+                            <td class="col-form-label">tipe</td>
+                            <td>:</td>
+                            <td>${data.tipe}</td>
+                        </tr>
+                        <tr>
+                            <td class="col-form-label">produk</td>
+                            <td>:</td>
+                            <td>${data.produk}</td>
+                        </tr>
+                        <tr>
+                            <td class="col-form-label">kode produk</td>
+                            <td>:</td>
+                            <td>${data.kode_produk}</td>
+                        </tr>
+                        <tr>
+                            <td class="col-form-label">qty</td>
+                            <td>:</td>
+                            <td>${data.qty}</td>
+                        </tr>
+                        <tr>
+                            <td class="col-form-label">alasan</td>
+                            <td>:</td>
+                            <td>${data.reason ? data.reason : '-'}</td>
+                        </tr>
+                        <tr>
+                            <td class="col-form-label">keterangan</td>
+                            <td>:</td>
+                            <td>${data.keterangan ? data.keterangan : '-'}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            `;
+
+            $('#modalDetailTableBody').html(dataTable);
         });
 
         $('#cari').keyup(function() {

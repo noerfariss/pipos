@@ -92,7 +92,6 @@
             lengthChange: false,
             pageLength: 10,
             bDestroy: true,
-            info: false,
             responsive: true,
             order: [
                 [0, 'desc']
@@ -122,9 +121,58 @@
                     data: 'suplier'
                 },
                 {
-                    data: 'keterangan'
+                    data: 'keterangan',
+                    render: function(data) {
+                        return potongTeks(data, 7);
+                    }
                 },
             ]
+        });
+
+        $('#datatable tbody').on('click', 'tr', function() {
+            $('#modalTransaksiDetail').modal('show');
+
+            const data = datatables.row(this).data();
+            $('#modalDetailTable').modal('show');
+            $('#modalDetailTableLabel').text('STOK MASUK');
+
+            const dataTable = `
+                <table class="table table-sm table-hover">
+                    <tbody>
+                        <tr>
+                            <td class="col-form-label">tanggal</td>
+                            <td>:</td>
+                            <td>${data.created_at}</td>
+                        </tr>
+                        <tr>
+                            <td class="col-form-label">kode produk</td>
+                            <td>:</td>
+                            <td>${data.kode_produk}</td>
+                        </tr>
+                        <tr>
+                            <td class="col-form-label">produk</td>
+                            <td>:</td>
+                            <td>${data.produk}</td>
+                        </tr>
+                        <tr>
+                            <td class="col-form-label">qty</td>
+                            <td>:</td>
+                            <td>${data.qty}</td>
+                        <tr>
+                            <td class="col-form-label">suplier</td>
+                            <td>:</td>
+                            <td>${data.suplier}</td>
+                        </tr>
+                        <tr>
+                            <td class="col-form-label">keterangan</td>
+                            <td>:</td>
+                            <td>${data.keterangan}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            `;
+
+            $('#modalDetailTableBody').html(dataTable);
         });
 
         $('#cari').keyup(function() {
