@@ -14,6 +14,11 @@ class Kategori extends Model
 
     protected $guarded = [];
 
+    public function produk()
+    {
+        return $this->hasMany(Produk::class, 'kategori_id');
+    }
+
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
@@ -23,7 +28,6 @@ class Kategori extends Model
             })
             ->useLogName('kategori');
     }
-
 
     protected static function boot()
     {

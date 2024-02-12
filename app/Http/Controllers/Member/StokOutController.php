@@ -70,12 +70,11 @@ class StokOutController extends Controller
 
         return DataTables::eloquent($data)
             ->editColumn('tipe', fn ($e) => stokTipeTable($e->tipe))
-            ->addColumn('kode_produk', fn ($e) => $e->produk ? '<a href="' . route('stokout.show', ['uuid' => $e->uuid]) . '" class="text-dark btn-detail" data-title = "STOK KELUAR">' . $e->produk->barcode . '</a>' : '-')
-            ->addColumn('produk', fn ($e) => $e->produk ? '<a href="' . route('stokout.show', ['uuid' => $e->uuid]) . '" class="text-dark btn-detail" data-title = "STOK KELUAR">' . $e->produk->produk . '</a>' : '-')
-            ->addColumn('suplier', fn ($e) => $e->suplier ? '<a href="' . route('stokout.show', ['uuid' => $e->uuid]) . '" class="text-dark btn-detail" data-title = "STOK KELUAR">' . $e->suplier->suplier . '</a>' : '-')
-            ->editColumn('keterangan', fn ($e) => Str::words($e->keterangan, 5, '...'))
+            ->addColumn('kode_produk', fn ($e) => $e->produk ? $e->produk->barcode : '-')
+            ->addColumn('produk', fn ($e) => $e->produk ? $e->produk->produk : '-')
+            ->addColumn('suplier', fn ($e) => $e->suplier ? $e->suplier->suplier : '-')
             ->editColumn('created_at', fn ($e) => Carbon::parse($e->created_at)->timezone(session('zonawaktu'))->isoFormat('DD MMM YYYY HH:mm'))
-            ->rawColumns(['tipe', 'kode_produk', 'produk', 'suplier'])
+            ->rawColumns(['tipe'])
             ->make(true);
     }
 

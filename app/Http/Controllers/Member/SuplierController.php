@@ -55,7 +55,6 @@ class SuplierController extends Controller
         }
 
         return DataTables::eloquent($data)
-            ->editColumn('alamat', fn ($e) => Str::words($e->alamat, 7, '...'))
             ->addColumn('aksi', function ($e) {
                 $user = User::find(Auth::id());
 

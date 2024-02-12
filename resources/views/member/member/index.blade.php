@@ -52,7 +52,8 @@
         aria-labelledby="modalGantiPasswordLabel" aria-hidden="true">
         <div class="modal-dialog modal-md">
             <div class="modal-content">
-                <form action="{{ route('member.password')}}" method="POST" enctype="multipart/form-data" id="form-ganti-password">
+                <form action="{{ route('member.password') }}" method="POST" enctype="multipart/form-data"
+                    id="form-ganti-password">
                     <div class="modal-header">
                         <h5 class="modal-title" id="modalGantiPasswordLabel">Ganti Password</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -73,7 +74,7 @@
                                 <input type="text" class="form-control phone" disabled>
                             </div>
                         </div>
-                         <div class="row mb-3">
+                        <div class="row mb-3">
                             <label class="col-sm-4 col-form-label" for="email">Email</label>
                             <div class="col-sm-8">
                                 <input type="text" class="form-control email" disabled>
@@ -152,7 +153,12 @@
                     data: 'foto'
                 },
                 {
-                    data: 'member'
+                    data: 'nama',
+                    render: function(data, type, row){
+                        return `<div><b>${data}</b></div>
+                                <div>${potongTeks(row.alamat, 7)}</div>
+                                <div>${row.kota_id}</div>`;
+                    }
                 },
                 {
                     data: 'phone'
@@ -173,6 +179,60 @@
                     data: 'aksi'
                 },
             ]
+        });
+
+        $('#datatable tbody').on('click', 'tr td:not(:last-child)', function() {
+            $('#modalTransaksiDetail').modal('show');
+
+            const data = datatables.row(this).data();
+            $('#modalDetailTable').modal('show');
+            $('#modalDetailTableLabel').text('MEMBER DETAIL');
+
+            const dataTable = `
+                <table class="table table-sm table-hover">
+                    <tbody>
+                        <tr>
+                            <td class="col-form-label">nama</td>
+                            <td>:</td>
+                            <td>${data.nama}</td>
+                        </tr>
+                        <tr>
+                            <td class="col-form-label">whatsapp</td>
+                            <td>:</td>
+                            <td>${data.phone}</td>
+                        </tr>
+                        <tr>
+                            <td class="col-form-label">email</td>
+                            <td>:</td>
+                            <td>${data.email}</td>
+                        </tr>
+                        <tr>
+                            <td class="col-form-label">gender</td>
+                            <td>:</td>
+                            <td>${data.jenis_kelamin}</td>
+                        </tr>
+                        <tr>
+                            <td class="col-form-label">alamat</td>
+                            <td>:</td>
+                            <td>${data.alamat}</td>
+                        </tr>
+                        <tr>
+                            <td class="col-form-label">kota</td>
+                            <td>:</td>
+                            <td>${data.kota_id}</td>
+                        </tr>
+                        <tr>
+                            <td class="col-form-label">status</td>
+                            <td>:</td>
+                            <td>${data.status}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <section class="mt-5 text-center">${data.foto}</section>
+            `;
+
+            $('#modalDetailTableBody').html(dataTable);
         });
 
         $('#cari').keyup(function() {

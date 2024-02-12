@@ -46,6 +46,7 @@ class MemberController extends Controller
         $cari = $request->cari;
 
         $data = Member::query()
+            ->select('uuid', 'nama', 'foto', 'phone', 'email', 'jenis_kelamin', 'alamat', 'kota_id', 'status')
             ->when($cari, function ($e, $cari) {
                 $e->where(function ($e) use ($cari) {
                     $e->where('nama', 'like', '%' . $cari . '%')->orWhere('email', 'like', '%' . $cari . '%')->orWhere('phone', 'like', '%' . $cari . '%');
@@ -64,22 +65,10 @@ class MemberController extends Controller
         }
 
         return DataTables::eloquent($data)
-            ->addColumn('member', function ($e) {
-                return '
-                    <a
-                        href="' . route('member.show', ['member' => $e->uuid]) . '"
-                        class="text-dark btn-detail"
-                        data-title = "Member"
-                    >
-
-                        <div><b>' . $e->nama . '</b></div>' .
-                    '<div>' . Str::words($e->alamat, 5, '...') . '</div>' .
-                    '<div>' . $e->kota->kota . '</div>
-                    </a>';
-            })
             ->editColumn('foto', fn ($e) => fotoProfil($e->foto, $e->jenis_kelamin))
             ->editColumn('jenis_kelamin', fn ($e) => genderTable($e->jenis_kelamin))
             ->editColumn('status', fn ($e) => statusTable($e->status))
+            ->editColumn('kota_id', fn ($e) => $e->kota?->kota)
             ->editColumn('created_at', fn ($e) => Carbon::parse($e->created_at)->timezone(session('zonawaktu'))->isoFormat('DD MMM YYYY HH:mm'))
             ->addColumn('aksi', function ($e) {
                 $user = User::find(Auth::id());
@@ -114,7 +103,7 @@ class MemberController extends Controller
                             </div>
                         </div>';
             })
-            ->rawColumns(['aksi', 'foto', 'member', 'jenis_kelamin', 'status'])
+            ->rawColumns(['aksi', 'foto', 'jenis_kelamin', 'status'])
             ->make(true);
     }
 

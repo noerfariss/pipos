@@ -18,7 +18,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\Facades\DataTables;
-use Illuminate\Support\Str;
 
 class ProdukController extends Controller
 {
@@ -56,19 +55,8 @@ class ProdukController extends Controller
         }
 
         return DataTables::eloquent($data)
-            ->addColumn('produk', function ($e) {
-                return '
-                    <a
-                        href="' . route('produk.show', ['produk' => $e->uuid, 'detail' => true]) . '"
-                        class="text-dark btn-detail"
-                        data-title = "Produk"
-                    >
-
-                        <div><b>' . $e->produk . '</b></div>' .
-                    '<div>' . $e->barcode . '</div>' .
-                    '</a>';
-            })
             ->editColumn('kategori_id', fn ($e) => $e->kategori->kategori)
+            ->addColumn('unit', fn ($e) => $e->unit->unit)
             ->editColumn('foto', fn ($e) => fotoProduk($e->foto))
             ->editColumn('status', fn ($e) => statusTable($e->status))
             ->editColumn('created_at', fn ($e) => Carbon::parse($e->created_at)->timezone(session('zonawaktu'))->isoFormat('DD MMM YYYY HH:mm'))
@@ -100,7 +88,7 @@ class ProdukController extends Controller
                             </div>
                         </div>';
             })
-            ->rawColumns(['aksi', 'foto', 'produk', 'status'])
+            ->rawColumns(['aksi', 'foto', 'status'])
             ->make(true);
     }
 
