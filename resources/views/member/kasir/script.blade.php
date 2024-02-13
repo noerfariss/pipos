@@ -499,7 +499,12 @@
                 },
             },
             columns: [{
-                    data: 'member'
+                    data: 'nama',
+                    render: function(data, type, row) {
+                        return `<div><b>${data}</b></div>
+                                <div>${potongTeks(row.alamat, 7)}</div>
+                                <div>${row.kota_id}</div>`;
+                    }
                 },
                 {
                     data: 'phone'

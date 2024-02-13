@@ -57,5 +57,5 @@
 
 @section('script')
     <script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.js') }}"></script>
-    {!! JsValidator::formRequest('App\Http\Requests\suplier\SuplierCreateRequest', '#my-form') !!}
+    {!! JsValidator::formRequest('App\Http\Requests\Suplier\SuplierCreateRequest', '#my-form') !!}
 @endsection
