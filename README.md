@@ -4,7 +4,7 @@
 - PHP min. 8.1
 - MariaDB / MySQL
 - Laravel 10
-- The PHP extension must be activated. (gd and imagick)
+- The PHP extension must be activated. (gd)
 
 ### Installation
 
